@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_nav" />
+
+
+
+
+    <com.nambimobile.widgets.efab.ExpandableFabLayout
+        android:id="@+id/expandable_fab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.nambimobile.widgets.efab.Overlay
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:overlay_alpha="0.7"
+
+            app:overlay_openingAnimationDurationMs="1000"
+            app:overlay_orientation="portrait" />
+
+        <com.nambimobile.widgets.efab.ExpandableFab
+            app:fabCustomSize="72dp"
+            android:id="@+id/expandable_fab_portrait"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:efab_closingAnticipateTension="0"
+            app:efab_color="@color/colorPrimaryDark"
+            app:efab_firstFabOptionMarginPx="120"
+            app:efab_iconAnimationRotationDeg="-225"
+            app:efab_openingAnimationDurationMs="500"
+            app:efab_orientation="portrait"
+            app:efab_successiveFabOptionMarginPx="100"
+            app:layout_anchor="@id/bottom_nav"
+            />
+
+        <com.nambimobile.widgets.efab.FabOption
+            android:id="@+id/location_detect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="@color/colorPrimaryDark"
+            app:fab_icon="@drawable/ic_photo_camera_white"
+            app:fab_orientation="portrait"
+            app:label_position="right"
+            app:label_text="Location Detect"
+            app:label_translationXPx="-100"
+
+            />
+
+        <com.nambimobile.widgets.efab.FabOption
+            android:id="@+id/food_detect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="@color/colorPrimaryDark"
+            app:fab_icon="@drawable/ic_baseline_camera_24"
+            app:fab_orientation="portrait"
+            app:label_position="left"
+            app:label_text="Food Detect"
+            app:label_translationXPx="-100" />
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:backgroundTint="@color/white"
+            android:hapticFeedbackEnabled="true"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
+            app:fabAlignmentMode="center"
+            app:fabCradleMargin="10dp"
+            app:fabCradleRoundedCornerRadius="10dp"
+            tools:ignore="BottomAppBar">
+
+
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_nav"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:labelVisibilityMode="unlabeled"
+                app:itemIconTint="@color/drawer_item"
+
+            app:menu="@menu/menu" />
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+
+    </com.nambimobile.widgets.efab.ExpandableFabLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

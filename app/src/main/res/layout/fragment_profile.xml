@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/profileLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/profileLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:background="@drawable/login_button_bk"
+            android:text="Login"
+            app:backgroundTint="@null"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:text="Login to enable more exclusive features" />
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:id="@+id/profileLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="30dp">
+
+            <TextView
+                android:id="@+id/setting"
+                style="@style/viewParent2.headerText"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:text="Settings" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileCircleImageView"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/profile"
+                    app:civ_border_color="@color/colorPrimaryDark"
+                    app:civ_border_width="2dp" />
+
+                <TextView
+                    android:id="@+id/usernameTextView"
+                    style="@style/viewParent2.headerText"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="30dp"
+                    android:layout_toRightOf="@id/profileCircleImageView"
+                    android:text="IG Gamer"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/viewParent2.headerText.settingsMiniTitle"
+                android:text="Notifications" />
+
+            <Switch
+                style="@style/settingsText"
+                android:checked="true"
+                android:drawableStart="@drawable/ic_notifications"
+                android:text="Notifications"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <TextView
+                style="@style/viewParent2.headerText.settingsMiniTitle"
+                android:text="Profile" />
+
+            <Switch
+                style="@style/settingsText"
+                android:checked="true"
+                android:drawableStart="@drawable/ic_filter"
+
+                android:text="Recommendations"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <TextView
+                style="@style/viewParent.headerText.settingsTextIcon"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_edit_profile"
+                android:focusable="true"
+                android:text="Change Name" />
+
+            <TextView
+                style="@style/viewParent.headerText.settingsTextIcon"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_edit_password"
+                android:focusable="true"
+                android:text="Change Password" />
+
+            <TextView
+                android:id="@+id/logout"
+                style="@style/viewParent.headerText.settingsTextIcon"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_logout"
+                android:focusable="true"
+                android:text="Logout" />
+
+
+            <TextView
+                style="@style/viewParent2.headerText.settingsMiniTitle"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:text="App version 1.0"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:clickable="true"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="true"
+    android:focusable="true">
+
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/featured_image"
+        android:layout_width="@dimen/_160sdp"
+        android:layout_height="@dimen/_250sdp"
+        android:orientation="vertical"
+        android:scaleType="fitCenter"
+        android:src="@drawable/gatewayofindia"
+        app:riv_corner_radius="@dimen/_8sdp">
+
+    </com.flaviofaria.kenburnsview.KenBurnsView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/_10sdp">
+
+        <TextView
+            android:layout_gravity="bottom"
+            android:id="@+id/featured_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/white"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:text="Gateway of india"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_1sdp"
+            />
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom">
+
+            <ImageView
+                android:id="@+id/marker"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_marker"
+                android:layout_marginEnd="@dimen/_3sdp"/>
+
+            <TextView
+                android:id="@+id/featured_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:shadowColor="@color/white"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_9sdp"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/featuredPlace_load_photo"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</com.google.android.material.card.MaterialCardView>
+
+
+
+
+

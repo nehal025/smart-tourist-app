@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/abril_fatface</item>
+        <item>@font/amiko_semibold</item>
+        <item>@font/average</item>
+        <item>@font/muli</item>
+        <item>@font/poppins</item>
+    </array>
+</resources>

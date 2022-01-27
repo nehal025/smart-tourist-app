@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_home"
+        android:checked="true"
+
+    />
+    <item
+        android:id="@+id/navigation_news"
+        android:icon="@drawable/ic_news"
+
+        android:title="News" />
+
+
+    <item
+        android:id="@+id/placeholder"
+        android:title=""
+        />
+
+    <item
+        android:id="@+id/navigation_save"
+        android:icon="@drawable/ic_baseline_bookmarks_24"
+        android:title="saved"
+        />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_round_account_circle_24"
+        android:title="Profile"
+        />
+
+
+</menu>
