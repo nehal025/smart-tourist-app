@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
     public void loadJson(String name,String username,String password){
 
 
-        String baseURL = "https://smart-tourist-app.herokuapp.com/";
+        String baseURL = getResources().getString(R.string.link);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -160,8 +160,10 @@ public class RegisterActivity extends AppCompatActivity implements Validator.Val
         editor.putString("name", name);
         editor.putString("token", token);
         editor.putBoolean("loginStatus",loginStatus);
+        editor.putBoolean("rec",true);
         editor.apply();
     }
+
 
 
 

@@ -21,12 +21,12 @@
             android:layout_height="wrap_content">
 
 
-
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
+                android:src="@drawable/profile"
                 android:transitionName="img"
                 tools:ignore="UnusedAttribute" />
 
@@ -74,8 +74,21 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_10sdp"
                     android:textStyle="normal" />
+
+
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/like_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:src="@drawable/ic_like_button" />
 
             <FrameLayout
                 android:id="@+id/layoutDate"

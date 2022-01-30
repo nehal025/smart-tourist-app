@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Hotel {
 
-    public Hotel(String title, String img, String location, String info, Integer star, String price, Float rating, String reviews, String booknow) {
+    public Hotel(String title, String img, String location, String info, String star, String price, Float rating, String reviews, String booknow,boolean save) {
         this.title = title;
         this.img = img;
         this.location = location;
@@ -15,6 +15,8 @@ public class Hotel {
         this.rating = rating;
         this.reviews = reviews;
         this.booknow = booknow;
+        Save = save;
+
     }
 
     @SerializedName("title")
@@ -31,7 +33,7 @@ public class Hotel {
     private String info;
     @SerializedName("star")
     @Expose
-    private Integer star;
+    private String star;
     @SerializedName("price")
     @Expose
     private String price;
@@ -44,6 +46,17 @@ public class Hotel {
     @SerializedName("booknow")
     @Expose
     private String booknow;
+
+    private boolean Save;
+
+    public boolean isSave() {
+        return Save;
+    }
+
+    public void setSave(boolean save) {
+        Save = save;
+    }
+
 
     public String getTitle() {
         return title;
@@ -77,11 +90,11 @@ public class Hotel {
         this.info = info;
     }
 
-    public Integer getStar() {
+    public String getStar() {
         return star;
     }
 
-    public void setStar(Integer star) {
+    public void setStar(String star) {
         this.star = star;
     }
 

@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.smarttourapp.R;
-import com.example.smarttourapp.ml.ModelUnquant;
+import com.example.smarttourapp.ml.Model;
 import com.example.smarttourapp.ui.camera.Camera;
 import com.example.smarttourapp.utils.Global;
 
@@ -72,7 +72,7 @@ public class FoodClassifier extends AppCompatActivity {
     @SuppressLint("DefaultLocale")
     public void classifyImage(Bitmap image) {
         try {
-            ModelUnquant model = ModelUnquant.newInstance(getApplicationContext());
+            Model model = Model.newInstance(getApplicationContext());
 
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
@@ -93,7 +93,7 @@ public class FoodClassifier extends AppCompatActivity {
 
             inputFeature0.loadBuffer(byteBuffer);
 
-            ModelUnquant.Outputs outputs = model.process(inputFeature0);
+            Model.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidences = outputFeature0.getFloatArray();

@@ -145,7 +145,7 @@ public class HomeFragment extends Fragment  {
 
     private void getRetrofit() {
 
-        String baseURL = "https://smart-tourist-app.herokuapp.com/";
+        String baseURL = getResources().getString(R.string.link);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())

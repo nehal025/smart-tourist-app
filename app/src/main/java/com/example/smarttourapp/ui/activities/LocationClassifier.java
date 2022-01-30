@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smarttourapp.R;
-import com.example.smarttourapp.ml.ModelUnquant;
+import com.example.smarttourapp.ml.Model;
 import com.example.smarttourapp.ui.camera.Camera;
 import com.example.smarttourapp.utils.Global;
 
@@ -53,14 +53,14 @@ public class LocationClassifier extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
 
         classify.setOnClickListener(v -> {
-//            bitmap = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, false);
-//            classifyImage(bitmap);
+            bitmap = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, false);
+            classifyImage(bitmap);
 
         });
 
         retake.setOnClickListener(v -> {
             Intent myIntent = new Intent(LocationClassifier.this, Camera.class);
-            myIntent.putExtra("role","locationDetect");
+            myIntent.putExtra("role", "locationDetect");
             LocationClassifier.this.startActivity(myIntent);
             finish();
         });
@@ -74,7 +74,7 @@ public class LocationClassifier extends AppCompatActivity {
     @SuppressLint("DefaultLocale")
     public void classifyImage(Bitmap image) {
         try {
-            ModelUnquant model = ModelUnquant.newInstance(getApplicationContext());
+            Model model = Model.newInstance(getApplicationContext());
 
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
@@ -95,7 +95,7 @@ public class LocationClassifier extends AppCompatActivity {
 
             inputFeature0.loadBuffer(byteBuffer);
 
-            ModelUnquant.Outputs outputs = model.process(inputFeature0);
+            Model.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidences = outputFeature0.getFloatArray();
@@ -121,30 +121,32 @@ public class LocationClassifier extends AppCompatActivity {
 
             }
 
-            Intent myIntent = new Intent(LocationClassifier.this, DisplayPlace.class);
-            myIntent.putExtra("location", labels.get(maxPos));
-            myIntent.putExtra("location", s);
-            LocationClassifier.this.startActivity(myIntent);
-            model.close();
-            finish();
+                Intent myIntent = new Intent(LocationClassifier.this, DisplayPlace.class);
+                myIntent.putExtra("location", labels.get(maxPos));
+//            myIntent.putExtra("location", s);
+                LocationClassifier.this.startActivity(myIntent);
+                model.close();
+                finish();
+
         } catch (IOException ignored) {
 
         }
     }
+
     public void loadLabels() throws IOException {
         AssetManager manager;
         String line;
         manager = getAssets();
         InputStream is = manager.open("labels.txt");
         InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br  = new BufferedReader(isr);
+        BufferedReader br = new BufferedReader(isr);
         try {
             while ((line = br.readLine()) != null) {
-                labels.add(line) ;
+                labels.add(line);
             }
-        }catch (IOException e1) {
+        } catch (IOException e1) {
             Toast.makeText(getBaseContext(), "Problem!", Toast.LENGTH_SHORT).show();
-        }finally{
+        } finally {
             br.close();
             isr.close();
             is.close();

@@ -88,7 +88,7 @@ public class RestaurantList extends AppCompatActivity {
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .build();
 
-        String baseURL = "https://smart-tourist-app.herokuapp.com/";
+        String baseURL = getResources().getString(R.string.link);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .client(okHttpClient)

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -45,6 +46,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.MyViewHolder
 
     public interface OnItemClickListener {
         void onClickBookNow(View view, int position);
+        void onLike(View view, int position);
         void onItemClick(int position);
 
     }
@@ -116,7 +118,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.MyViewHolder
         ProgressBar progressBar;
         RatingBar rating;
         com.ornach.nobobutton.NoboButton bookNow;
-
+        ImageView like;
         public MyViewHolder(View itemView, final OnItemClickListener listener) {
 
             super(itemView);
@@ -130,6 +132,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.MyViewHolder
             progressBar = itemView.findViewById(R.id.prograss_load_photo);
             rating=itemView.findViewById(R.id.rating);
             bookNow=itemView.findViewById(R.id.hote_bookNow);
+            like=itemView.findViewById(R.id.like_button);
 
             bookNow.setOnClickListener(v -> {
 
@@ -147,6 +150,17 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.MyViewHolder
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         listener.onItemClick(position);
+                    }
+                }
+
+            });
+
+            like.setOnClickListener(v -> {
+
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onLike(v,position);
                     }
                 }
 

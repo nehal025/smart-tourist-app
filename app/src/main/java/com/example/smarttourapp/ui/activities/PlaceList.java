@@ -10,6 +10,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.smarttourapp.R;
 import com.example.smarttourapp.model.Place;
 import com.example.smarttourapp.model.Restaurant;
+import com.example.smarttourapp.model.ThingsToDo;
 import com.example.smarttourapp.retrofit.RetrofitArrayApi;
 import com.example.smarttourapp.ui.adapters.PlaceAdapter;
 import com.example.smarttourapp.ui.adapters.RestaurantAdapter;
@@ -41,7 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PlaceList extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    List<Place> places = new ArrayList<>();
+    List<ThingsToDo> places = new ArrayList<>();
     PlaceAdapter placeAdapter;
     RelativeLayout errorLayout;
     ImageView errorImage;
@@ -65,7 +66,7 @@ public class PlaceList extends AppCompatActivity {
         errorTitle = findViewById(R.id.errorTitle);
         errorMessage = findViewById(R.id.errorMessage);
         btnRetry = findViewById(R.id.btnRetry);
-        loadJson(Global.State);
+        loadJson(Global.city);
     }
 
     public void loadJson(String location){
@@ -77,7 +78,7 @@ public class PlaceList extends AppCompatActivity {
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .build();
 
-        String baseURL = "https://smart-tourist-app.herokuapp.com/";
+        String baseURL = getResources().getString(R.string.link);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .client(okHttpClient)
@@ -85,12 +86,12 @@ public class PlaceList extends AppCompatActivity {
                 .build();
 
         RetrofitArrayApi service = retrofit.create(RetrofitArrayApi.class);
-        Call<List<Place>> call = service.getPlaceByState(location);
+        Call<List<ThingsToDo>> call = service.getThingsToDo(location);
 
-        call.enqueue(new Callback<List<Place>>() {
+        call.enqueue(new Callback<List<ThingsToDo>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onResponse(@NonNull Call<List<Place>> call, @NonNull Response<List<Place>> response) {
+            public void onResponse(@NonNull Call<List<ThingsToDo>> call, @NonNull Response<List<ThingsToDo>> response) {
                 if (response.isSuccessful() ){
 
                     if (!places.isEmpty()){
@@ -98,16 +99,15 @@ public class PlaceList extends AppCompatActivity {
                     }
 
                     for (int i = 0; i< Objects.requireNonNull(response.body()).size(); i++){
-                        String id=response.body().get(i).getId();
-                        String name=response.body().get(i).getName();
 
-                        List<String> img = new ArrayList<>(response.body().get(i).getImg());
+
+                        String title=response.body().get(i).getTitle();
+
+                        String img = response.body().get(i).getImg();
                         String location=response.body().get(i).getLocation();
-                        String state=response.body().get(i).getState();
                         String info=response.body().get(i).getInfo();
-                        Boolean featured=response.body().get(i).getFeatured();
-                        Boolean ml=response.body().get(i).getMl();
-                        places.add( new Place(id,name,img,location,state,info,featured,ml));
+
+                        places.add( new ThingsToDo(title,img,location,info));
                     }
 
 
@@ -147,7 +147,7 @@ public class PlaceList extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Place>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<ThingsToDo>> call, @NonNull Throwable t) {
               progressBar.setVisibility(View.GONE);
                 showErrorMessage(R.drawable.oops, "Oops..",
 
@@ -187,9 +187,9 @@ public class PlaceList extends AppCompatActivity {
 
             @Override
             public void onItemClick(int position) {
-                Intent myIntent = new Intent(PlaceList.this, DisplayPlace.class);
-                myIntent.putExtra("location", places.get(position).getName());
-                startActivity(myIntent);
+//                Intent myIntent = new Intent(PlaceList.this, DisplayPlace.class);
+//                myIntent.putExtra("location", places.get(position).getTitle());
+//                startActivity(myIntent);
             }
         });
 

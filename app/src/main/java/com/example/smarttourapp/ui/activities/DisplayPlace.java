@@ -114,7 +114,7 @@ public class DisplayPlace extends AppCompatActivity {
 
     private void getRetrofit(String loc) {
 
-        String baseURL = "https://smart-tourist-app.herokuapp.com/";
+        String baseURL = getResources().getString(R.string.link);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())

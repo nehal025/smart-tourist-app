@@ -1,17 +1,22 @@
 package com.example.smarttourapp.retrofit;
 
 
+import com.example.smarttourapp.Token;
 import com.example.smarttourapp.model.Food;
+import com.example.smarttourapp.model.Recommendation;
 import com.example.smarttourapp.model.Restaurant;
 import com.example.smarttourapp.model.RegisterBody;
 import com.example.smarttourapp.model.Hotel;
 import com.example.smarttourapp.model.LoginResponse;
 import com.example.smarttourapp.model.Place;
+import com.example.smarttourapp.model.ThingsToDo;
 import com.example.smarttourapp.model.news.News;
 
 
+import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -32,9 +37,15 @@ public interface RetrofitArrayApi {
     @GET("/hotels/live/")
     Call <List<Hotel>>getLiveHotel(@Query("location")String name);
 
+    @GET("/hotels/live/")
+    Call <List<Hotel>>getLiveHotelWithStar(@Query("location")String name, @Query("star")List<String> recommendation);
+
     @GET("/restaurants/live/")
     Call <List<Restaurant>>getLiveRestaurants(@Query("location")String name);
 
+
+    @GET("/places/live/")
+    Call <List<ThingsToDo>>getThingsToDo(@Query("location")String name);
 
     @GET("/places/")
     Call <List<Place>>getPlace(@Query("name")String name);
@@ -65,11 +76,17 @@ public interface RetrofitArrayApi {
     @POST("users/logout")
     Call<LoginResponse> logoutUser(@Body RegisterBody RegisterBody);
 
-    @POST("users/recommendation")
-    Call<LoginResponse> updateRecommendation(@Body RegisterBody RegisterBody);
+    @POST("users/recommendation/")
+    Call<Recommendation> updateRecommendation(@Query("token") String token,
+                                             @Query("_1star") String _1star,
+                                             @Query("_2star") String _2star,
+                                             @Query("_3star") String _3star,
+                                             @Query("_4star") String _4star,
+                                             @Query("_5star") String _5star
+                                            );
 
 
-    @GET("users/recommendation/")
-    Call <List<Place>>getRecommendation(@Body RegisterBody RegisterBody);
+    @GET("users/recommendation")
+    Call <Recommendation>getRecommendedHotels( @Query("token") String token);
 
 }

@@ -99,6 +99,7 @@
                 android:text="Profile" />
 
             <Switch
+                android:id="@+id/rec"
                 style="@style/settingsText"
                 android:checked="true"
                 android:drawableStart="@drawable/ic_filter"

@@ -13,9 +13,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.ArrayMap;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.smarttourapp.R;
+import com.example.smarttourapp.Token;
+import com.example.smarttourapp.model.Hotel;
+import com.example.smarttourapp.model.Recommendation;
+import com.example.smarttourapp.retrofit.RetrofitArrayApi;
+import com.example.smarttourapp.ui.adapters.HotelAdapter;
 import com.example.smarttourapp.ui.camera.Camera;
 import com.example.smarttourapp.ui.fragments.HomeFragment;
 import com.example.smarttourapp.ui.fragments.NewsFragment;
@@ -45,8 +52,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.nambimobile.widgets.efab.FabOption;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
     FabOption locationDetect;
     FabOption foodDetect;
     public static String globalLogin = "login";
-
 
 
     @SuppressLint("NonConstantResourceId")
@@ -91,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        HomeFragment homeFragment =  new HomeFragment();
+        HomeFragment homeFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
 
 
@@ -120,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        if(getLoginStatus()){
+            getRecommendations(getToken());
+        }
+
 
 
     }
@@ -193,10 +217,9 @@ public class MainActivity extends AppCompatActivity {
                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                     Global.city = addresses.get(0).getLocality();
                     Global.district = addresses.get(0).getSubAdminArea();
-                    Global.State=addresses.get(0).getAdminArea();
-                    Global.pinCode=addresses.get(0).getPostalCode();
+                    Global.State = addresses.get(0).getAdminArea();
+                    Global.pinCode = addresses.get(0).getPostalCode();
                     Global.country = addresses.get(0).getCountryName();
-
 
 
                     if (!alreadyExecuted) {
@@ -307,8 +330,81 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void getRecommendations(String token) {
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .build();
+
+        String baseURL = getResources().getString(R.string.link);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseURL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitArrayApi service = retrofit.create(RetrofitArrayApi.class);
+        Call <Recommendation> call = service.getRecommendedHotels(getToken());
+
+        call.enqueue(new Callback <Recommendation>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(@NonNull Call <Recommendation> call, Response<Recommendation> response) {
 
 
+                if (response.isSuccessful()) {
+
+                    Global.map.put("1" ,response.body().get1star());
+                    Global.map.put("2" ,response.body().get2star());
+                    Global.map.put("3",response.body().get3star());
+                    Global.map.put("4",response.body().get4star());
+                    Global.map.put("5",response.body().get5star());
+
+
+                    Global.recommendation = response.body().getRecommendation();
+
+
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call <Recommendation> call, @NonNull Throwable t) {
+                Toast toast=Toast.makeText(MainActivity.this,t.toString(),Toast.LENGTH_SHORT);
+                toast.setMargin(50,50);
+                toast.show();
+            }
+        });
+
+    }
+
+    public String getToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        return sharedPreferences.getString("token", null);
+    }
+
+    public Boolean getRec() {
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        return sharedPreferences.getBoolean("rec", true);
+    }
+
+
+    public void recommendationOff() {
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("rec",false);
+        editor.apply();
+    }
+
+    public void recommendationOn() {
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("rec",true);
+        editor.apply();
+    }
 }
 
 

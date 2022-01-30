@@ -24,17 +24,18 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.smarttourapp.R;
 import com.example.smarttourapp.model.Place;
+import com.example.smarttourapp.model.ThingsToDo;
 import com.example.smarttourapp.utils.Utils;
 
 import java.util.List;
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.MyViewHolder>{
 
-private List<Place> articles;
+private List<ThingsToDo> articles;
 private Context context;
 
 
-public PlaceAdapter(List<Place> articles, Context context) {
+public PlaceAdapter(List<ThingsToDo> articles, Context context) {
         this.articles = articles;
         this.context = context;
         }
@@ -62,7 +63,7 @@ public interface OnItemClickListener {
     @Override
     public void onBindViewHolder(@NonNull PlaceAdapter.MyViewHolder holders, int position) {
         final PlaceAdapter.MyViewHolder holder = holders;
-        Place model = articles.get(position);
+        ThingsToDo model = articles.get(position);
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(Utils.getRandomDrawbleColor());
@@ -71,7 +72,7 @@ public interface OnItemClickListener {
         requestOptions.centerCrop();
 
         Glide.with(context)
-                .load(model.getImg().get(0))
+                .load(model.getImg())
                 .apply(requestOptions)
                 .listener(new RequestListener<Drawable>() {
                     @Override
@@ -89,7 +90,7 @@ public interface OnItemClickListener {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imageView);
 
-        holder.title.setText(model.getName());
+        holder.title.setText(model.getTitle());
         holder.place_info.setText(model.getInfo());
         holder.location.setText(model.getLocation());
 
