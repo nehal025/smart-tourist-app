@@ -67,6 +67,8 @@
             app:label_text="Food Detect"
             app:label_translationXPx="-100" />
 
+
+
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
             android:layout_width="match_parent"

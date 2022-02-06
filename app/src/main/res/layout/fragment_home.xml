@@ -8,6 +8,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:tag="home"
+    android:scrollbars="none"
     tools:context=".ui.fragments.HomeFragment">
 
 
@@ -29,10 +30,8 @@
             <ImageView
                 android:id="@+id/marker"
                 android:layout_width="@dimen/_15sdp"
-
-
                 android:layout_height="@dimen/_15sdp"
-                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:src="@drawable/ic_baseline_location_on_24"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,22 +66,69 @@
 
 
             <TextView
+
                 android:id="@+id/welcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
+                android:text="Discover"
                 android:fontFamily="sans-serif-black"
-                android:padding="@dimen/_20sdp"
-                android:text="What you would like to find?"
+                android:layout_marginStart="@dimen/_20sdp"
                 android:textColor="#322525"
                 android:textSize="@dimen/_30sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_location" />
 
+            <TextView
+                android:id="@+id/welcome2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:text="Explore the best places in india"
+                android:textColor="#887979"
+                android:textSize="@dimen/_13sdp"
+
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/welcome" />
+
+
+            <FrameLayout
+                android:layout_marginTop="@dimen/_35sdp"
+                android:id="@+id/frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/welcome2"
+                android:autofillHints="password"
+                android:background="@drawable/search">
+
+                <TextView
+                    android:id="@+id/messageTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_25sdp"
+                    android:gravity="center_vertical"
+                    android:text="Search places"
+                    android:textSize="16sp" />
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:defaultQueryHint="Search places"
+                    />
+
+            </FrameLayout>
+
+
+
             <LinearLayout
+                android:layout_marginTop="@dimen/_20sdp"
                 android:id="@+id/cards"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +136,7 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:orientation="horizontal"
                 android:weightSum="4"
-                app:layout_constraintTop_toBottomOf="@id/welcome">
+                app:layout_constraintTop_toBottomOf="@id/frame">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/getHotel"
@@ -210,10 +256,16 @@
                 android:layout_gravity="fill_vertical"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/featured_city" />
+                app:layout_constraintTop_toBottomOf="@id/featured_city"
+                />
+
+            <View
+                app:layout_constraintBaseline_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/featured_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -227,6 +279,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

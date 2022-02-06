@@ -29,6 +29,9 @@
         android:theme="@style/Theme.SmartTourApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.activities.SearchLocation"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.FoodList"
             android:exported="false" />
         <activity
@@ -73,6 +76,15 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service
+            android:name=".ExitService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":ServiceProcess"
+            android:stopWithTask="false" />
+
+
     </application>
 
 </manifest>

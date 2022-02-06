@@ -71,7 +71,7 @@ public class FoodList extends AppCompatActivity {
         if (intent.hasExtra("location")) {
             loadJson(getIntent().getExtras().getString("location"));
         } else {
-            loadJson(Global.State);
+            loadJson(Global.currentAddress.getState());
         }
     }
 

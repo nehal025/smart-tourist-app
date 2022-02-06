@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,8 @@ public class PlaceList extends AppCompatActivity {
         errorTitle = findViewById(R.id.errorTitle);
         errorMessage = findViewById(R.id.errorMessage);
         btnRetry = findViewById(R.id.btnRetry);
-        loadJson(Global.city);
+        loadJson(Global.currentAddress.getCity());
+
     }
 
     public void loadJson(String location){
@@ -100,9 +102,7 @@ public class PlaceList extends AppCompatActivity {
 
                     for (int i = 0; i< Objects.requireNonNull(response.body()).size(); i++){
 
-
                         String title=response.body().get(i).getTitle();
-
                         String img = response.body().get(i).getImg();
                         String location=response.body().get(i).getLocation();
                         String info=response.body().get(i).getInfo();

@@ -13,25 +13,17 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.ArrayMap;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.smarttourapp.R;
-import com.example.smarttourapp.Token;
-import com.example.smarttourapp.model.Hotel;
+import com.example.smarttourapp.model.CurrentLocation;
 import com.example.smarttourapp.model.Recommendation;
 import com.example.smarttourapp.retrofit.RetrofitArrayApi;
-import com.example.smarttourapp.ui.adapters.HotelAdapter;
 import com.example.smarttourapp.ui.camera.Camera;
 import com.example.smarttourapp.ui.fragments.HomeFragment;
 import com.example.smarttourapp.ui.fragments.NewsFragment;
@@ -49,19 +41,13 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.nambimobile.widgets.efab.FabOption;
 
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         foodDetect.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, Camera.class);
+            Intent intent = new Intent(MainActivity.this, SearchLocation.class);
             intent.putExtra("role", "foodDetect");
             startActivity(intent);
         });
@@ -145,13 +131,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         if (checkPermissions()) {
             syncLocation();
         } else {
@@ -159,12 +138,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
     @SuppressLint("MissingPermission")
     @Override
     public void onResume() {
         super.onResume();
         if (checkPermissions()) {
-            setLocation();
+//            setLocation();
         }
     }
 
@@ -215,12 +201,15 @@ public class MainActivity extends AppCompatActivity {
 
                     Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                    Global.city = addresses.get(0).getLocality();
-                    Global.district = addresses.get(0).getSubAdminArea();
-                    Global.State = addresses.get(0).getAdminArea();
-                    Global.pinCode = addresses.get(0).getPostalCode();
-                    Global.country = addresses.get(0).getCountryName();
-
+                    String city =addresses.get(0).getLocality();
+                    String district=addresses.get(0).getSubAdminArea() ;
+                    String state =addresses.get(0).getAdminArea();
+                    String pinCode =addresses.get(0).getPostalCode();
+                    String country =addresses.get(0).getCountryName();
+                    String latitude =String.valueOf(addresses.get(0).getLatitude());
+                    String longitude=String.valueOf(addresses.get(0).getLongitude());
+                    String addressLine=addresses.get(0).getAddressLine(0);
+                    Global.currentAddress=new CurrentLocation(city,district,state,pinCode,country,latitude,longitude,addressLine);
 
                     if (!alreadyExecuted) {
                         alreadyExecuted = true;

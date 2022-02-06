@@ -141,6 +141,7 @@ public class Camera extends AppCompatActivity {
                 } else {
                     intent = new Intent(getApplicationContext(), FoodClassifier.class);
 
+
                 }
                 startActivity(intent);
 
@@ -193,10 +194,17 @@ public class Camera extends AppCompatActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 Global.img = BitmapFactory.decodeStream(imageStream);
+                if(role.equals("locationDetect")){
 
                 Intent intent = new Intent(getApplicationContext(), LocationClassifier.class);
                 startActivity(intent);
                 finish();
+                }else{
+                    Intent intent = new Intent(getApplicationContext(), FoodClassifier.class);
+                    startActivity(intent);
+                    finish();
+                }
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

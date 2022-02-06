@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.smarttourapp.R;
-import com.example.smarttourapp.ml.Model;
+import com.example.smarttourapp.ml.FoodModel;
 import com.example.smarttourapp.ui.camera.Camera;
 import com.example.smarttourapp.utils.Global;
 
@@ -51,8 +51,8 @@ public class FoodClassifier extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
 
         classify.setOnClickListener(v -> {
-//            bitmap = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, false);
-//            classifyImage(bitmap);
+            bitmap = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, false);
+            classifyImage(bitmap);
 
         });
 
@@ -72,7 +72,7 @@ public class FoodClassifier extends AppCompatActivity {
     @SuppressLint("DefaultLocale")
     public void classifyImage(Bitmap image) {
         try {
-            Model model = Model.newInstance(getApplicationContext());
+            FoodModel model = FoodModel.newInstance(getApplicationContext());
 
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
@@ -93,7 +93,7 @@ public class FoodClassifier extends AppCompatActivity {
 
             inputFeature0.loadBuffer(byteBuffer);
 
-            Model.Outputs outputs = model.process(inputFeature0);
+            FoodModel.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidences = outputFeature0.getFloatArray();
@@ -121,7 +121,7 @@ public class FoodClassifier extends AppCompatActivity {
 
             Intent myIntent = new Intent(FoodClassifier.this, DisplayFood.class);
             myIntent.putExtra("name", labels.get(maxPos));
-            myIntent.putExtra("location", s);
+//            myIntent.putExtra("location", s);
             FoodClassifier.this.startActivity(myIntent);
             model.close();
             finish();
@@ -133,7 +133,7 @@ public class FoodClassifier extends AppCompatActivity {
         AssetManager manager;
         String line;
         manager = getAssets();
-        InputStream is = manager.open("labels.txt");
+        InputStream is = manager.open("food_labels.txt");
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader br  = new BufferedReader(isr);
         try {

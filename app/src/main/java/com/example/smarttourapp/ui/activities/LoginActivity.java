@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity  implements Validator.Valid
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
 
             }
         });

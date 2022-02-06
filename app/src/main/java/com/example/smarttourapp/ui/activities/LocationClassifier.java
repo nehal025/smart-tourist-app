@@ -13,7 +13,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smarttourapp.R;
-import com.example.smarttourapp.ml.Model;
+
+
+import com.example.smarttourapp.ml.PlaceModel;
 import com.example.smarttourapp.ui.camera.Camera;
 import com.example.smarttourapp.utils.Global;
 
@@ -47,9 +49,10 @@ public class LocationClassifier extends AppCompatActivity {
         classify = findViewById(R.id.classify);
         retake = findViewById(R.id.retake);
 
+
+
         int dimension = Math.min(bitmap.getWidth(), bitmap.getHeight());
         bitmap = ThumbnailUtils.extractThumbnail(bitmap, dimension, dimension);
-
         imageView.setImageBitmap(bitmap);
 
         classify.setOnClickListener(v -> {
@@ -74,7 +77,7 @@ public class LocationClassifier extends AppCompatActivity {
     @SuppressLint("DefaultLocale")
     public void classifyImage(Bitmap image) {
         try {
-            Model model = Model.newInstance(getApplicationContext());
+            PlaceModel model = PlaceModel.newInstance(getApplicationContext());
 
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
@@ -95,7 +98,7 @@ public class LocationClassifier extends AppCompatActivity {
 
             inputFeature0.loadBuffer(byteBuffer);
 
-            Model.Outputs outputs = model.process(inputFeature0);
+            PlaceModel.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidences = outputFeature0.getFloatArray();
@@ -137,7 +140,7 @@ public class LocationClassifier extends AppCompatActivity {
         AssetManager manager;
         String line;
         manager = getAssets();
-        InputStream is = manager.open("labels.txt");
+        InputStream is = manager.open("places_labels.txt");
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader br = new BufferedReader(isr);
         try {

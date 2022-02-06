@@ -73,7 +73,7 @@ public class RestaurantList extends AppCompatActivity {
         if (intent.hasExtra("location")) {
             LoadJson(getIntent().getExtras().getString("location"));
         } else {
-            LoadJson(Global.city);
+            LoadJson(Global.currentAddress.getCity());
         }
 
     }

@@ -104,7 +104,7 @@ public class NewsFragment extends Fragment  implements  SwipeRefreshLayout.OnRef
 
 
 
-        LoadJson(Global.district);
+        LoadJson(Global.currentAddress.getDistrict());
         return  view;
     }
     public void LoadJson(final String keyword){
@@ -230,14 +230,14 @@ public class NewsFragment extends Fragment  implements  SwipeRefreshLayout.OnRef
         errorTitle.setText(title);
         errorMessage.setText(message);
 
-        btnRetry.setOnClickListener(v -> onLoadingSwipeRefresh(Global.district));
+        btnRetry.setOnClickListener(v -> onLoadingSwipeRefresh(Global.currentAddress.getDistrict()));
 
     }
 
 
     @Override
     public void onRefresh() {
-        LoadJson(Global.district);
+        LoadJson(Global.currentAddress.getDistrict());
 
     }
 }

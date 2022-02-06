@@ -1,12 +1,13 @@
 package com.example.smarttourapp.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -17,16 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarttourapp.R;
+import com.example.smarttourapp.ui.activities.SearchLocation;
 import com.example.smarttourapp.ui.activities.DisplayPlace;
 import com.example.smarttourapp.ui.activities.FoodList;
-import com.example.smarttourapp.ui.activities.LocationClassifier;
 import com.example.smarttourapp.ui.activities.PlaceList;
 import com.example.smarttourapp.ui.activities.RestaurantList;
 import com.example.smarttourapp.model.Place;
 import com.example.smarttourapp.retrofit.RetrofitArrayApi;
 import com.example.smarttourapp.ui.activities.HotelsList;
 import com.example.smarttourapp.ui.adapters.FeaturedPlaceAdapter;
-import com.example.smarttourapp.ui.adapters.HotelAdapter;
 import com.example.smarttourapp.utils.Global;
 import com.google.android.material.card.MaterialCardView;
 
@@ -56,6 +56,18 @@ public class HomeFragment extends Fragment  {
     ConstraintLayout fragment_hide;
 
 
+    FrameLayout frame;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(Global.currentAddress!=null){
+            textView.setText(Global.currentAddress.getCity());
+
+        }
+    }
+
     public HomeFragment() {
 
     }
@@ -69,6 +81,7 @@ public class HomeFragment extends Fragment  {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,6 +97,15 @@ public class HomeFragment extends Fragment  {
         getPlace=view.findViewById(R.id.getPlace);
         progressBar= view.findViewById(R.id.fragment_progressbar);
         fragment_hide.setVisibility(View.INVISIBLE);
+        frame=view.findViewById(R.id.frame);
+
+
+        frame.setOnClickListener(v -> {
+            Intent myIntent = new Intent(getContext(), SearchLocation.class);
+            startActivity(myIntent);
+        });
+
+
 
 //        if (getArguments() != null) {
 //             location = getArguments().getString(ARG_LOCATION);
@@ -119,6 +141,8 @@ public class HomeFragment extends Fragment  {
 
         return view;
     }
+
+
 
     private void featuredRecycler() {
 
@@ -198,17 +222,13 @@ public class HomeFragment extends Fragment  {
 
             public void run() {
 
-                if(!Global.city.equals("")){
-                    textView.setText(Global.city);
+                if(Global.currentAddress.getCity()!=null){
+                    textView.setText(Global.currentAddress.getCity());
                     progressBar.setVisibility(View.GONE);
-
                     fragment_hide.setVisibility(View.VISIBLE);
-
                     h.removeCallbacksAndMessages(null);
-
                     return;
                 }
-
                 h.postDelayed(this, 100);
             }
         };

@@ -65,6 +65,7 @@
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/drawable/round.xml" value="0.3365740740740741" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/drawable/round_button.xml" value="0.283984375" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/drawable/round_white.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/drawable/search.xml" value="0.2806949806949807" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/drawable/select.xml" value="0.3365740740740741" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/drawable/ss.xml" value="0.3365740740740741" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/drawable/top_shadow.xml" value="0.37864583333333335" />
@@ -78,6 +79,7 @@
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/activity_food_list.xml" value="0.261328125" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/activity_home.xml" value="0.3625" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/activity_hotels_list.xml" value="0.22" />
+        <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/activity_loc.xml" value="0.271875" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/activity_location_classifier.xml" value="0.25" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/activity_login.xml" value="0.261328125" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/activity_main.xml" value="0.22" />
@@ -111,8 +113,9 @@
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/partial_action.xml" value="0.32472826086956524" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/place_item.xml" value="0.271875" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/restaurant_item.xml" value="0.271875" />
+        <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/layout/search.xml" value="0.280859375" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3625" />
-        <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/menu/menu.xml" value="0.3625" />
+        <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/menu/menu.xml" value="0.25" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/menu/menu_news.xml" value="0.3625" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/menu/navigation.xml" value="0.3484375" />
         <entry key="..\:/Users/NeHaL/AndroidStudioProjects/SmartTourApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14921875" />
