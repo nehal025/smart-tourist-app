@@ -1,9 +1,7 @@
 package com.example.smarttourapp.utils;
 
 import android.graphics.Bitmap;
-
 import com.example.smarttourapp.model.CurrentLocation;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;

@@ -46,7 +46,7 @@
                 android:layout_marginTop="@dimen/_13sdp"
                 android:fontFamily="@font/poppins"
                 android:gravity="bottom"
-                android:text="Kalyan,IN"
+                android:text="Kalyan"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13sdp"
                 android:textStyle="bold"
@@ -93,37 +93,43 @@
                 app:layout_constraintTop_toBottomOf="@id/welcome" />
 
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_marginTop="@dimen/_35sdp"
                 android:id="@+id/frame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/welcome2"
                 android:autofillHints="password"
-                android:background="@drawable/search">
+                android:background="@drawable/search"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/searchView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:defaultQueryHint="Search places"
+                    app:iconifiedByDefault="true"
+                    android:src="@drawable/ic_search"
+
+                    />
 
                 <TextView
                     android:id="@+id/messageTextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_25sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:gravity="center_vertical"
                     android:text="Search places"
                     android:textSize="16sp" />
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/searchView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:defaultQueryHint="Search places"
-                    />
 
-            </FrameLayout>
+
+            </LinearLayout>
 
 
 

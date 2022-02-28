@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -56,11 +57,12 @@ public class HomeFragment extends Fragment  {
     ConstraintLayout fragment_hide;
 
 
-    FrameLayout frame;
+    LinearLayout frame;
 
     @Override
     public void onResume() {
         super.onResume();
+
 
         if(Global.currentAddress!=null){
             textView.setText(Global.currentAddress.getCity());
@@ -222,7 +224,7 @@ public class HomeFragment extends Fragment  {
 
             public void run() {
 
-                if(Global.currentAddress.getCity()!=null){
+                if(Global.currentAddress!=null){
                     textView.setText(Global.currentAddress.getCity());
                     progressBar.setVisibility(View.GONE);
                     fragment_hide.setVisibility(View.VISIBLE);

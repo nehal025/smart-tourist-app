@@ -1,7 +1,5 @@
 package com.example.smarttourapp.model;
 
-import java.util.Objects;
-
 public class CurrentLocation {
 
     private String city ;

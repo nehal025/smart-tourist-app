@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         foodDetect.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SearchLocation.class);
+            Intent intent = new Intent(MainActivity.this, Camera.class);
             intent.putExtra("role", "foodDetect");
             startActivity(intent);
         });
@@ -149,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (checkPermissions()) {
-//            setLocation();
+        if (checkPermissions()&& !alreadyExecuted) {
+            setLocation();
         }
     }
 
@@ -213,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!alreadyExecuted) {
                         alreadyExecuted = true;
-
                     }
 
 

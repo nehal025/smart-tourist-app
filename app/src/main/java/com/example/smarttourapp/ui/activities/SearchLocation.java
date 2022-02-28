@@ -1,11 +1,13 @@
 package com.example.smarttourapp.ui.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,12 +34,14 @@ public class SearchLocation extends AppCompatActivity {
     SearchAdapter searchAdapter;
     RecyclerView.LayoutManager layoutManager;
     FrameLayout frame;
+    LinearLayout currentLocation;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loc);
+        currentLocation=findViewById(R.id.homeLocation);
         searchRecycle = findViewById(R.id.search_recycler);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         searchRecycle.setLayoutManager(layoutManager);
@@ -48,11 +52,20 @@ public class SearchLocation extends AppCompatActivity {
         frame = findViewById(R.id.frame);
         list = new ArrayList<>();
         searchView.setIconified(false);
+        currentLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchLocation.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });
 
-        list.add(Global.currentAddress);
-        searchAdapter = new SearchAdapter(list, getApplicationContext());
-        searchRecycle.setAdapter(searchAdapter);
-        initListener();
+//        list.add(Global.currentAddress);
+//        searchAdapter = new SearchAdapter(list, getApplicationContext());
+//        searchRecycle.setAdapter(searchAdapter);
+//        initListener();
         searchListener();
 
     }
@@ -65,6 +78,7 @@ public class SearchLocation extends AppCompatActivity {
                 list.clear();
                 searchAdapter.notifyDataSetChanged();
                 initListener();
+                currentLocation.setVisibility(View.VISIBLE);
             }
 
         });
@@ -85,6 +99,7 @@ public class SearchLocation extends AppCompatActivity {
                     list.clear();
                     searchAdapter.notifyDataSetChanged();
                 }
+                currentLocation.setVisibility(View.GONE);
 
                 try {
                     List<Address> addresses = geocoder.getFromLocationName(query, 5);
@@ -127,9 +142,14 @@ public class SearchLocation extends AppCompatActivity {
 
                 if(newText.isEmpty()){
                     list.clear();
-                    list.add(Global.currentAddress);
-                    searchAdapter.notifyDataSetChanged();
-                    initListener();
+//                    list.add(Global.currentAddress);
+//                    searchAdapter.notifyDataSetChanged();
+//                    initListener();
+                    currentLocation.setVisibility(View.VISIBLE);
+                }
+
+                if(newText.length()>0){
+                    currentLocation.setVisibility(View.GONE);
                 }
 
                 return false;
