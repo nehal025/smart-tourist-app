@@ -29,6 +29,15 @@
         android:theme="@style/Theme.SmartTourApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.activities.DisplayFlightPrediction"
+            android:exported="false" />
+        <activity
+            android:name=".SearchCity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.DisplayTrainPrediction"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.SearchLocation"
             android:exported="false" />
         <activity
@@ -83,8 +92,6 @@
             android:exported="true"
             android:process=":ServiceProcess"
             android:stopWithTask="false" />
-
-
     </application>
 
 </manifest>

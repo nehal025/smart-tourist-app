@@ -33,7 +33,9 @@ public class CurrentLocation {
         this.addressLine = currentLocation.getAddressLine();
     }
 
+    public CurrentLocation() {
 
+    }
 
 
     public String getCity() {

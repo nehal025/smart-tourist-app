@@ -1,4 +1,10 @@
-package com.example.smarttourapp.ui.activities;
+package com.example.smarttourapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,14 +16,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.smarttourapp.R;
 import com.example.smarttourapp.model.CurrentLocation;
+import com.example.smarttourapp.ui.activities.MainActivity;
+import com.example.smarttourapp.ui.activities.SearchLocation;
 import com.example.smarttourapp.ui.adapters.SearchAdapter;
 import com.example.smarttourapp.utils.Global;
 
@@ -25,7 +26,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchLocation extends AppCompatActivity {
+public class SearchCity extends AppCompatActivity {
+
 
     private Geocoder geocoder;
     SearchView searchView;
@@ -36,7 +38,6 @@ public class SearchLocation extends AppCompatActivity {
     FrameLayout frame;
     LinearLayout currentLocation;
     String operation;
-
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +55,17 @@ public class SearchLocation extends AppCompatActivity {
         list = new ArrayList<>();
         searchView.setIconified(false);
         operation=getIntent().getStringExtra("operation");
+
         currentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SearchLocation.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                if(operation.equals("from")){
+                    Global.fromAddress=new CurrentLocation(Global.currentAddress);
+                }
+
+                if(operation.equals("to")) {
+                    Global.toAddress=new CurrentLocation(Global.currentAddress);
+                }
                 finish();
             }
         });
@@ -172,8 +178,13 @@ public class SearchLocation extends AppCompatActivity {
 
             @Override
             public void onItemClick(int position) {
+                if(operation.equals("from")){
+                    Global.fromAddress=new CurrentLocation(list.get(position));
+                }
 
-                Global.currentAddress=new CurrentLocation(list.get(position));
+                if(operation.equals("to")) {
+                    Global.toAddress=new CurrentLocation(list.get(position));
+                }
                 finish();
 
 

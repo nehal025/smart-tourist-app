@@ -3,6 +3,8 @@ package com.example.smarttourapp.retrofit;
 
 import com.example.smarttourapp.Token;
 import com.example.smarttourapp.model.Food;
+import com.example.smarttourapp.model.PricePredictionFlight;
+import com.example.smarttourapp.model.PricePredictionTrain;
 import com.example.smarttourapp.model.Recommendation;
 import com.example.smarttourapp.model.Restaurant;
 import com.example.smarttourapp.model.RegisterBody;
@@ -88,5 +90,23 @@ public interface RetrofitArrayApi {
 
     @GET("users/recommendation")
     Call <Recommendation>getRecommendedHotels( @Query("token") String token);
+
+
+    @GET("/predictions/")
+    Call <PricePredictionTrain>getPredictionTrain(@Query("day") String day,
+                                                   @Query("person") String person,
+                                                   @Query("star") String star,
+                                                   @Query("fromCity") String fromCity,
+                                                   @Query("toCity") String toCity,
+                                                   @Query("trainBool") Boolean trainBool);
+    @GET("/predictions/")
+    Call <PricePredictionFlight>getPredictionFlight(@Query("day") String day,
+                                                    @Query("person") String person,
+                                                    @Query("star") String star,
+                                                    @Query("fromCity") String fromCity,
+                                                    @Query("toCity") String toCity,
+                                                    @Query("fromDist") String fromDist,
+                                                    @Query("toDist") String toDist,
+                                                    @Query("flightBool") Boolean flightBool);
 
 }

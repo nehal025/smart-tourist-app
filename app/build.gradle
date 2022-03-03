@@ -139,4 +139,5 @@ dependencies {
     implementation 'br.com.mauker.materialsearchview:materialsearchview:1.3.0-rc02'
 
 
+
 }

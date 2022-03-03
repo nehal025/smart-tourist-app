@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="@dimen/_230sdp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="11dp"
         android:layout_marginRight="11dp"
@@ -24,7 +24,7 @@
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/_130sdp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/profile"
                 android:transitionName="img"
@@ -112,8 +112,8 @@
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_12sdp"
-                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
                     android:text="2000"
                     android:textColor="#fff" />
 
@@ -131,26 +131,28 @@
                 android:layout_marginRight="16dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Title"
+                android:lines="1"
                 android:textColor="@color/colorTextTitle"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
 
-            <TextView
-                android:id="@+id/desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/title"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="16dp"
-                android:text="Desc" />
+<!--            <TextView-->
+<!--                android:id="@+id/desc"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/title"-->
+<!--                android:layout_marginLeft="16dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:layout_marginRight="16dp"-->
+<!--                android:text="Desc"-->
+<!--                android:visibility="invisible" />-->
 
             <TextView
                 android:id="@+id/source"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_below="@id/desc"
+                android:layout_below="@id/title"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -169,7 +171,7 @@
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/desc"
+                android:layout_below="@id/title"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="10dp"
@@ -178,10 +180,11 @@
 
 
             <com.ornach.nobobutton.NoboButton
+                android:layout_margin="@dimen/_10sdp"
                 android:id="@+id/hote_bookNow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/desc"
+                android:layout_below="@id/title"
                 android:layout_alignEnd="@id/rating"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/_10sdp"

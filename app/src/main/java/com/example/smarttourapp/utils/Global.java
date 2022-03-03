@@ -14,6 +14,9 @@ public class Global {
 
     public static CurrentLocation currentAddress;
 
+    public static CurrentLocation fromAddress=new CurrentLocation();
+    public static CurrentLocation toAddress=new CurrentLocation();
+
     public static List<String> recommendation = new ArrayList<>();
 
     public static TreeMap<String,String> map = new TreeMap<>();

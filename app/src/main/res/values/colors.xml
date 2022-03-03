@@ -8,7 +8,7 @@
     <color name="colorPrimaryDark">#FFB129</color>
     <color name="colorAccent">#FFB129</color>
     <color name="colorAccent2">#265DC8</color>
-
+    <color name="red">#F44336</color>
 
     <!-- Text colors-->
     <color name="colorBackground">#f9f9fa</color>

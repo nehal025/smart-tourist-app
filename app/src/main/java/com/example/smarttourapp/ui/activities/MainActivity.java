@@ -28,7 +28,7 @@ import com.example.smarttourapp.ui.camera.Camera;
 import com.example.smarttourapp.ui.fragments.HomeFragment;
 import com.example.smarttourapp.ui.fragments.NewsFragment;
 import com.example.smarttourapp.ui.fragments.ProfileFragment;
-import com.example.smarttourapp.ui.fragments.SaveFragment;
+import com.example.smarttourapp.ui.fragments.PredictionFragment;
 import com.example.smarttourapp.utils.Global;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 case R.id.navigation_save:
-                    selectedFragment = new SaveFragment();
+                    selectedFragment = new PredictionFragment();
                     break;
                 case R.id.navigation_news:
                     selectedFragment = new NewsFragment();
@@ -136,6 +136,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             requestPermissions();
         }
+
+//        Global.fromAddress.setCity("hi");
+//        Global.toAddress.setCity("");
+
     }
 
 
@@ -392,6 +396,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("rec",true);
         editor.apply();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }
 

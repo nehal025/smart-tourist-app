@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.example.smarttourapp.ui.fragments.HomeFragment;
 import com.example.smarttourapp.ui.fragments.NewsFragment;
 import com.example.smarttourapp.ui.fragments.ProfileFragment;
-import com.example.smarttourapp.ui.fragments.SaveFragment;
+import com.example.smarttourapp.ui.fragments.PredictionFragment;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                         selectedFragment = HomeFragment.newInstance(displayLocation);
                         break;
                     case R.id.navigation_save:
-                        selectedFragment = new SaveFragment();
+                        selectedFragment = new PredictionFragment();
                         break;
                     case R.id.navigation_news:
                         selectedFragment = NewsFragment.newInstance(district);

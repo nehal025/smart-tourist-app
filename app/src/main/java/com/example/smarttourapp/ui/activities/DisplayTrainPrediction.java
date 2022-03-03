@@ -1,88 +1,86 @@
 package com.example.smarttourapp.ui.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.ArrayMap;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.smarttourapp.ExitService;
+import com.example.smarttourapp.R;
 import com.example.smarttourapp.animation.MyBounceInterpolator;
 import com.example.smarttourapp.model.Hotel;
-import com.example.smarttourapp.R;
+import com.example.smarttourapp.model.PricePredictionTrain;
 import com.example.smarttourapp.model.Recommendation;
-import com.example.smarttourapp.model.news.Article;
 import com.example.smarttourapp.retrofit.RetrofitArrayApi;
-import com.example.smarttourapp.ui.adapters.HotelAdapter;
-import com.example.smarttourapp.ui.adapters.NewsAdapter;
+import com.example.smarttourapp.ui.adapters.HotelPreddictionAdapter;
 import com.example.smarttourapp.utils.Global;
-
-import org.json.JSONObject;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+public class DisplayTrainPrediction extends AppCompatActivity {
 
-public class HotelsList extends AppCompatActivity {
+    TextView totalPrice;
+    TextView hotelAvg;
+    TextView trainAvg;
+    TextView persons;
+    TextView days;
+    ProgressBar progressBar;
 
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     List<Hotel> hotels = new ArrayList<>();
-    HotelAdapter hotelAdapter;
+    HotelPreddictionAdapter hotelAdapter;
     TextView topHeadline;
     RelativeLayout errorLayout;
     ImageView errorImage;
     TextView errorTitle, errorMessage;
     Button btnRetry;
     RelativeLayout lottieContainer;
-
     LottieAnimationView lottie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hotels_list);
+        setContentView(R.layout.activity_display_train_prediction);
 
         recyclerView = findViewById(R.id.recyclerView_hotel);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         errorLayout = findViewById(R.id.errorLayout);
         errorImage = findViewById(R.id.errorImage);
@@ -94,37 +92,34 @@ public class HotelsList extends AppCompatActivity {
         lottieContainer = findViewById(R.id.lottie_container);
         lottieContainer.setVisibility(View.VISIBLE);
 
+        totalPrice=findViewById(R.id.totalprice);
+        hotelAvg=findViewById(R.id.HotelsAvg);
+        trainAvg=findViewById(R.id.train_price);
+        days=findViewById(R.id.days);
+        persons=findViewById(R.id.person);
+        CollapsingToolbarLayout collapsingToolbarLayout =findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle("Travel Cost Estimations");
+        collapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
+
+
+
         Intent intent = getIntent();
 
-        if (intent.hasExtra("location")) {
-            LoadJson(getIntent().getExtras().getString("location"));
-        } else {
-            LoadJson(Global.currentAddress.getCity());
-        }
+        String day = intent.getStringExtra("day");
+        String star = intent.getStringExtra("star");
+        String person = intent.getStringExtra("person");
+
+
+        getRetrofitTrain(Global.fromAddress.getCity(),Global.toAddress.getCity(),day,star,person);
+
+
+
 
     }
 
-    private void showErrorMessage(int imageView, String title, String message) {
 
-        if (errorLayout.getVisibility() == View.GONE) {
-            errorLayout.setVisibility(View.VISIBLE);
-        }
+    private void getRetrofitTrain(String from ,String to,String day,String star,String person) {
 
-        errorImage.setImageResource(imageView);
-        errorTitle.setText(title);
-        errorMessage.setText(message);
-
-        btnRetry.setOnClickListener(v -> {
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
-        });
-    }
-
-    public void LoadJson(String location) {
-
-        errorLayout.setVisibility(View.GONE);
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -139,49 +134,50 @@ public class HotelsList extends AppCompatActivity {
                 .build();
 
         RetrofitArrayApi service = retrofit.create(RetrofitArrayApi.class);
-        Call<List<Hotel>> call;
+        Call<PricePredictionTrain> call = service.getPredictionTrain(day,person,star,from,to,true);
 
-        if (getRec()) {
-            call = service.getLiveHotelWithStar(location, Global.recommendation);
 
-        } else {
-            call = service.getLiveHotel(location);
-
-        }
-
-        call.enqueue(new Callback<List<Hotel>>() {
-            @SuppressLint("NotifyDataSetChanged")
+        call.enqueue(new Callback<PricePredictionTrain>() {
+            @SuppressLint({"CheckResult", "SetTextI18n"})
             @Override
-            public void onResponse(@NonNull Call<List<Hotel>> call, Response<List<Hotel>> response) {
+            public void onResponse(@NonNull Call<PricePredictionTrain> call, @NonNull Response<PricePredictionTrain> response) {
+
+
                 if (response.isSuccessful()) {
 
                     if (!hotels.isEmpty()) {
                         hotels.clear();
                     }
 
-                    for (int i = 0; i < response.body().size(); i++) {
+                    for (int i = 0; i < response.body().getHotels().size(); i++) {
 
-                        hotels.add(new Hotel(response.body().get(i).getTitle(),
-                                response.body().get(i).getImg(),
-                                response.body().get(i).getLocation(),
-                                response.body().get(i).getInfo(),
-                                response.body().get(i).getStar(),
-                                response.body().get(i).getPrice(),
-                                response.body().get(i).getRating(),
-                                response.body().get(i).getReviews(),
-                                response.body().get(i).getBooknow()
+                        hotels.add(new Hotel(response.body().getHotels().get(i).getTitle(),
+                                response.body().getHotels().get(i).getImg(),
+                                response.body().getHotels().get(i).getLocation(),
+                                response.body().getHotels().get(i).getInfo(),
+                                response.body().getHotels().get(i).getStar(),
+                                String.valueOf(response.body().getHotels().get(i).getPrice()),
+                                response.body().getHotels().get(i).getRating(),
+                                response.body().getHotels().get(i).getReviews(),
+                                response.body().getHotels().get(i).getBooknow()
                                 , false
                         ));
                     }
 
 
-                    hotelAdapter = new HotelAdapter(hotels, getApplicationContext());
+                    hotelAdapter = new HotelPreddictionAdapter(hotels, getApplicationContext());
                     recyclerView.setAdapter(hotelAdapter);
                     hotelAdapter.notifyDataSetChanged();
                     initListener();
 
                     lottieContainer.setVisibility(View.GONE);
                     lottie.cancelAnimation();
+                    hotelAvg.setText("Hotels Avg Cost :"+response.body().getHotelsAvgCost());
+
+                    totalPrice.setText("Total Cost :"+response.body().getTotalCost());
+                    trainAvg.setText("Train Avg Cost :"+response.body().getTrainAvgCost());
+                    persons.setText("Person :"+response.body().getPerson());
+                    days.setText("Days :"+response.body().getDay());
 
 
                 } else {
@@ -209,31 +205,53 @@ public class HotelsList extends AppCompatActivity {
 
 
                 }
+
+
+
+
             }
 
-            @Override
-            public void onFailure(@NonNull Call<List<Hotel>> call, @NonNull Throwable t) {
-                lottie.cancelAnimation();
-                lottieContainer.setVisibility(View.GONE);
-                showErrorMessage(R.drawable.oops, "Oops..",
 
-                        "Server Connection error");
+
+
+            @Override
+            public void onFailure(@NonNull Call <PricePredictionTrain> call, @NonNull Throwable t) {
+
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        t.getMessage(),
+                        Toast.LENGTH_SHORT);
+
+                toast.show();
+
             }
         });
 
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
 
     }
 
+
+    private void showErrorMessage(int imageView, String title, String message) {
+
+        if (errorLayout.getVisibility() == View.GONE) {
+            errorLayout.setVisibility(View.VISIBLE);
+        }
+
+        errorImage.setImageResource(imageView);
+        errorTitle.setText(title);
+        errorMessage.setText(message);
+
+        btnRetry.setOnClickListener(v -> {
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
+        });
+    }
 
     private void initListener() {
 
 
-        hotelAdapter.setOnItemClickListener(new HotelAdapter.OnItemClickListener() {
+        hotelAdapter.setOnItemClickListener(new HotelPreddictionAdapter.OnItemClickListener() {
 
 
             @Override
@@ -262,7 +280,7 @@ public class HotelsList extends AppCompatActivity {
 
                         Global.map.put(star, String.valueOf(Integer.parseInt(Objects.requireNonNull(Global.map.get(star))) + 1));
                         hotels.get(position).setSave(true);
-                        Toast toast = Toast.makeText(HotelsList.this, Global.map.get(star), Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(DisplayTrainPrediction.this, Global.map.get(star), Toast.LENGTH_SHORT);
                         toast.setMargin(50, 50);
                         toast.show();
 
@@ -365,7 +383,7 @@ public class HotelsList extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<Recommendation> call, @NonNull Throwable t) {
-                Toast toast = Toast.makeText(HotelsList.this, t.toString(), Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(DisplayTrainPrediction.this, t.toString(), Toast.LENGTH_SHORT);
                 toast.setMargin(50, 50);
                 toast.show();
             }
@@ -378,5 +396,6 @@ public class HotelsList extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         return sharedPreferences.getBoolean("rec", true);
     }
+
 
 }

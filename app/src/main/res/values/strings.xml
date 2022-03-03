@@ -20,5 +20,6 @@
 
 
     <string name="link">https://smart-tourist-app.herokuapp.com/</string>
+    <string name="local_host">http://172.22.96.1:3000/</string>
 
 </resources>

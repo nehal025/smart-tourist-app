@@ -50,13 +50,11 @@ public class PlaceList extends AppCompatActivity {
     TextView errorTitle, errorMessage;
     Button btnRetry;
     RelativeLayout lottieContainer;
-    ProgressBar progressBar;
-
+    LottieAnimationView lottie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_list);
-        progressBar=findViewById(R.id.place_list_progressbar);
         recyclerView = findViewById(R.id.recyclerView_place);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -67,6 +65,10 @@ public class PlaceList extends AppCompatActivity {
         errorTitle = findViewById(R.id.errorTitle);
         errorMessage = findViewById(R.id.errorMessage);
         btnRetry = findViewById(R.id.btnRetry);
+        lottie = findViewById(R.id.lottie);
+        lottieContainer = findViewById(R.id.lottie_container);
+        lottieContainer.setVisibility(View.VISIBLE);
+
         loadJson(Global.currentAddress.getCity());
 
     }
@@ -115,12 +117,14 @@ public class PlaceList extends AppCompatActivity {
                     recyclerView.setAdapter(placeAdapter);
                     placeAdapter.notifyDataSetChanged();
                     initListener();
-                    progressBar.setVisibility(View.GONE);
+                    lottieContainer.setVisibility(View.GONE);
+                    lottie.cancelAnimation();
 
 
 
                 } else {
-                    progressBar.setVisibility(View.GONE);
+                    lottieContainer.setVisibility(View.GONE);
+                    lottie.cancelAnimation();
 
                     lottieContainer.setVisibility(View.GONE);
                     String errorCode;
@@ -148,7 +152,8 @@ public class PlaceList extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<ThingsToDo>> call, @NonNull Throwable t) {
-              progressBar.setVisibility(View.GONE);
+                lottieContainer.setVisibility(View.GONE);
+                lottie.cancelAnimation();
                 showErrorMessage(R.drawable.oops, "Oops..",
 
                         t.toString());
