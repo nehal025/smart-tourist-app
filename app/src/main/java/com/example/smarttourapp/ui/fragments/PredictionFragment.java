@@ -21,10 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.smarttourapp.R;
-import com.example.smarttourapp.SearchCity;
+import com.example.smarttourapp.ui.activities.SearchCity;
 import com.example.smarttourapp.ui.activities.DisplayFlightPrediction;
 import com.example.smarttourapp.ui.activities.DisplayTrainPrediction;
-import com.example.smarttourapp.ui.activities.SearchLocation;
 import com.example.smarttourapp.utils.Global;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -57,7 +56,7 @@ public class PredictionFragment extends Fragment implements AdapterView.OnItemSe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_save, container, false);
+        View view = inflater.inflate(R.layout.fragment_prediction, container, false);
 
         from = view.findViewById(R.id.from);
         to = view.findViewById(R.id.to);

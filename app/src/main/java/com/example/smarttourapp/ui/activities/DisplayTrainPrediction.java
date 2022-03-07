@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,11 +29,15 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.smarttourapp.ExitService;
 import com.example.smarttourapp.R;
 import com.example.smarttourapp.animation.MyBounceInterpolator;
+import com.example.smarttourapp.model.Flight;
 import com.example.smarttourapp.model.Hotel;
 import com.example.smarttourapp.model.PricePredictionTrain;
 import com.example.smarttourapp.model.Recommendation;
+import com.example.smarttourapp.model.Train;
 import com.example.smarttourapp.retrofit.RetrofitArrayApi;
+import com.example.smarttourapp.ui.adapters.FlightAdapter;
 import com.example.smarttourapp.ui.adapters.HotelPreddictionAdapter;
+import com.example.smarttourapp.ui.adapters.TrainAdapter;
 import com.example.smarttourapp.utils.Global;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -55,20 +60,30 @@ public class DisplayTrainPrediction extends AppCompatActivity {
     TextView trainAvg;
     TextView persons;
     TextView days;
-    ProgressBar progressBar;
+    TextView livingCost;
+    TextView from;
+    TextView to;
 
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     List<Hotel> hotels = new ArrayList<>();
     HotelPreddictionAdapter hotelAdapter;
-    TextView topHeadline;
     RelativeLayout errorLayout;
     ImageView errorImage;
     TextView errorTitle, errorMessage;
     Button btnRetry;
     RelativeLayout lottieContainer;
     LottieAnimationView lottie;
+
+
+
+    RecyclerView recyclerViewTrain;
+    RecyclerView.LayoutManager layoutManagerTrain;
+    List<Train> trains = new ArrayList<>();
+
+
+    TrainAdapter trainAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +97,15 @@ public class DisplayTrainPrediction extends AppCompatActivity {
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
+
+        recyclerViewTrain = findViewById(R.id.recyclerView_train);
+        layoutManagerTrain = new LinearLayoutManager(getApplicationContext());
+        recyclerViewTrain.setLayoutManager(layoutManagerTrain);
+        recyclerViewTrain.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewTrain.setNestedScrollingEnabled(false);
+        recyclerViewTrain.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+
         errorLayout = findViewById(R.id.errorLayout);
         errorImage = findViewById(R.id.errorImage);
         errorTitle = findViewById(R.id.errorTitle);
@@ -92,16 +116,21 @@ public class DisplayTrainPrediction extends AppCompatActivity {
         lottieContainer = findViewById(R.id.lottie_container);
         lottieContainer.setVisibility(View.VISIBLE);
 
-        totalPrice=findViewById(R.id.totalprice);
+        totalPrice=findViewById(R.id.total_price);
         hotelAvg=findViewById(R.id.HotelsAvg);
         trainAvg=findViewById(R.id.train_price);
         days=findViewById(R.id.days);
         persons=findViewById(R.id.person);
+        livingCost=findViewById(R.id.living_cost);
+        from=findViewById(R.id.from);
+        to=findViewById(R.id.to);
         CollapsingToolbarLayout collapsingToolbarLayout =findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("Travel Cost Estimations");
         collapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
 
-
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
 
@@ -109,7 +138,8 @@ public class DisplayTrainPrediction extends AppCompatActivity {
         String star = intent.getStringExtra("star");
         String person = intent.getStringExtra("person");
 
-
+        from.setText(Global.fromAddress.getCity());
+        to.setText(Global.toAddress.getCity());
         getRetrofitTrain(Global.fromAddress.getCity(),Global.toAddress.getCity(),day,star,person);
 
 
@@ -138,7 +168,7 @@ public class DisplayTrainPrediction extends AppCompatActivity {
 
 
         call.enqueue(new Callback<PricePredictionTrain>() {
-            @SuppressLint({"CheckResult", "SetTextI18n"})
+            @SuppressLint({"CheckResult", "SetTextI18n", "NotifyDataSetChanged"})
             @Override
             public void onResponse(@NonNull Call<PricePredictionTrain> call, @NonNull Response<PricePredictionTrain> response) {
 
@@ -148,7 +178,9 @@ public class DisplayTrainPrediction extends AppCompatActivity {
                     if (!hotels.isEmpty()) {
                         hotels.clear();
                     }
-
+                    if (!trains.isEmpty()) {
+                        trains.clear();
+                    }
                     for (int i = 0; i < response.body().getHotels().size(); i++) {
 
                         hotels.add(new Hotel(response.body().getHotels().get(i).getTitle(),
@@ -163,22 +195,33 @@ public class DisplayTrainPrediction extends AppCompatActivity {
                                 , false
                         ));
                     }
+                    for (int i = 0; i < response.body().getTrain().size(); i++) {
 
+                        trains.add(new Train(response.body().getTrain().get(i).getTitle(),
+                                response.body().getTrain().get(i).getCost(),
+                                response.body().getTrain().get(i).getTime()
+                                ,response.body().getTrain().get(i).getTrainClass()));
+
+
+                    }
 
                     hotelAdapter = new HotelPreddictionAdapter(hotels, getApplicationContext());
                     recyclerView.setAdapter(hotelAdapter);
                     hotelAdapter.notifyDataSetChanged();
+
+                    trainAdapter = new TrainAdapter(trains, getApplicationContext());
+                    recyclerViewTrain.setAdapter(trainAdapter);
+                    trainAdapter.notifyDataSetChanged();
                     initListener();
 
                     lottieContainer.setVisibility(View.GONE);
                     lottie.cancelAnimation();
                     hotelAvg.setText("Hotels Avg Cost :"+response.body().getHotelsAvgCost());
-
-                    totalPrice.setText("Total Cost :"+response.body().getTotalCost());
-                    trainAvg.setText("Train Avg Cost :"+response.body().getTrainAvgCost());
-                    persons.setText("Person :"+response.body().getPerson());
-                    days.setText("Days :"+response.body().getDay());
-
+                    trainAvg.setText("Train Avg Cost :"+" Rs "+response.body().getTrainAvgCost());
+                    totalPrice.setText("Total Cost :"+" Rs "+response.body().getTotalCost());
+                    persons.setText("No of person :"+response.body().getPerson());
+                    days.setText("No of days :"+response.body().getDay());
+                    livingCost.setText("Living Cost :"+" Rs "+response.body().getLivingCost());
 
                 } else {
 
@@ -395,6 +438,12 @@ public class DisplayTrainPrediction extends AppCompatActivity {
     public Boolean getRec() {
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         return sharedPreferences.getBoolean("rec", true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 

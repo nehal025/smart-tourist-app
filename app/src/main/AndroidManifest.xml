@@ -32,7 +32,7 @@
             android:name=".ui.activities.DisplayFlightPrediction"
             android:exported="false" />
         <activity
-            android:name=".SearchCity"
+            android:name=".ui.activities.SearchCity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.DisplayTrainPrediction"

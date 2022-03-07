@@ -64,10 +64,7 @@ public class SearchLocation extends AppCompatActivity {
             }
         });
 
-//        list.add(Global.currentAddress);
-//        searchAdapter = new SearchAdapter(list, getApplicationContext());
-//        searchRecycle.setAdapter(searchAdapter);
-//        initListener();
+
         searchListener();
 
     }
@@ -144,9 +141,7 @@ public class SearchLocation extends AppCompatActivity {
 
                 if(newText.isEmpty()){
                     list.clear();
-//                    list.add(Global.currentAddress);
-//                    searchAdapter.notifyDataSetChanged();
-//                    initListener();
+
                     currentLocation.setVisibility(View.VISIBLE);
                 }
 

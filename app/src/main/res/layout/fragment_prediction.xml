@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/displayFood"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <com.google.android.material.appbar.AppBarLayout
+
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/MyAppBarLayoutTheme">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                app:title="Title"
+                app:expandedTitleTextColor="@color/white"
+                app:expandedTitleMarginBottom="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleTextAppearance="@android:color/transparent"
+
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed|enterAlwaysCollapsed"
+                >
+
+                <ImageView
+                    android:id="@+id/food_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_200sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/travel"
+                    app:layout_collapseMode="parallax" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"/>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_marginTop="-25dp"
+            android:background="@drawable/round_white_top"
+            android:id="@+id/nested"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            >
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:id="@+id/fromFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_35sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:autofillHints="password"
+                    android:background="@drawable/search"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_10sdp">
+
+
+                    <TextView
+                        android:id="@+id/from"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="From"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:src="@drawable/ic_arrow" />
+
+                <LinearLayout
+                    android:id="@+id/toFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:autofillHints="password"
+                    android:background="@drawable/search"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/welcome2">
+
+
+                    <TextView
+                        android:id="@+id/to"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="To"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginEnd="@dimen/_20sdp">
+
+                    <TextView
+                        android:id="@+id/no_of_days_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="Number of day" />
+
+                    <TextView
+                        android:id="@+id/no_of_persons_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/no_of_days_frame"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="Number of persons" />
+
+                    <LinearLayout
+                        android:id="@+id/no_of_days_frame"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:background="@drawable/search"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_10sdp"
+                        tools:ignore="RtlHardcoded">
+
+
+                        <EditText
+                            android:id="@+id/no_of_days"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:hint="Days"
+
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/no_of_person_frame"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/no_of_days_frame"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="@dimen/_10sdp"
+
+                        android:background="@drawable/search"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_10sdp">
+
+
+                        <EditText
+                            android:id="@+id/no_of_persons"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:hint="Persons"
+
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/no_of_person_frame"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:text="Hotel Prefernce" />
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="@dimen/_125sdp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@+id/no_of_person_frame"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp" />
+                </RelativeLayout>
+
+
+
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_train"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:checked="true"
+                        android:text="Train"
+                        android:textSize="20dp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_flight"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:checked="false"
+                        android:text="Flight"
+                        android:textSize="20dp" />
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/predict"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_20sdp"
+                    android:background="@drawable/login_button_bk"
+                    android:text="Predict"
+                    android:textAllCaps="false"
+                    app:backgroundTint="@null"
+                    tools:ignore="RtlHardcoded" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"/>
+
+            </LinearLayout>
+
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

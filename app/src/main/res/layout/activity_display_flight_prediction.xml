@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,7 +11,6 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
-
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,61 +58,126 @@
             android:background="#f6f6f6"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+
+                        <TextView
+                            android:id="@+id/from"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_20sdp"
+                            android:background="@drawable/frame_dark_whirte"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/_18sdp"
+                            android:paddingTop="@dimen/_10sdp"
+                            android:paddingEnd="@dimen/_18sdp"
+                            android:paddingBottom="@dimen/_10sdp"
+                            android:text="Mumbai"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+
+                            />
+
+                        <ImageView
+                            android:id="@+id/arrow"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_toEndOf="@+id/from"
+                            android:src="@drawable/ic_arrow_horizontal" />
+
+                        <TextView
+                            android:id="@+id/to"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_20sdp"
+                            android:layout_toEndOf="@+id/arrow"
+                            android:background="@drawable/frame_dark_whirte"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/_18sdp"
+                            android:paddingTop="@dimen/_10sdp"
+                            android:paddingEnd="@dimen/_18sdp"
+                            android:paddingBottom="@dimen/_10sdp"
+                            android:text="New Dehli"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+
+
+                            />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/days"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginRight="16dp"
+                        android:text="No of days : 1"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_medium"
+                        />
 
                     <TextView
                         android:id="@+id/person"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginTop="@dimen/_30sdp"
                         android:layout_marginRight="16dp"
-                        android:text="Featured Locations"
-                        android:textSize="@dimen/_12sdp"
-                         />
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="No of persons : 1"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_medium"
+                        />
+
+
 
                     <TextView
-                        android:id="@+id/days"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginRight="16dp"
-                        android:text="Featured Locations"
-                        android:textSize="@dimen/_12sdp"
-                        />
-                    <TextView
                         android:id="@+id/living_cost"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginRight="16dp"
-                        android:text="Featured Locations"
-                        android:textSize="@dimen/_12sdp"
+                        android:text="Living Cost : Rs 450"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_medium"
                         />
 
                     <TextView
                         android:id="@+id/HotelsAvg"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
                         android:layout_marginRight="16dp"
-                        android:fontFamily="sans-serif-condensed"
-                        android:text="Featured Locations"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Hotels average cost : Rs 1000"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_16sdp"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"
+                        />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView_hotel"
@@ -124,16 +186,17 @@
                         android:layout_marginStart="13dp"
                         android:layout_marginTop="10dp"
                         android:scrollbars="vertical" />
+
                     <TextView
                         android:id="@+id/flight_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_10sdp"
-                        android:text="@string/app_name"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Flight average cost"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_16sdp"
-                        android:textStyle="bold"  />
+                        android:textSize="18sp"
+                        />
 
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -141,22 +204,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="13dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:scrollbars="vertical" />
 
                     <TextView
-                        android:id="@+id/totalprice"
+                        android:id="@+id/total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/app_name"
-                        android:fontFamily="sans-serif-condensed"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_16sdp"
-                        android:textStyle="bold"
+                        android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_20sdp"
-                        android:layout_gravity="center"/>
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/app_name"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/_60sdp"/>
                 </LinearLayout>
-            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
 
@@ -168,42 +231,42 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <RelativeLayout
-        android:id="@+id/lottie_container"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:background="#14C0CC"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".SplashHotel">
+        <RelativeLayout
+            android:id="@+id/lottie_container"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:background="#14C0CC"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".SplashHotel">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            android:layout_centerInParent="true"
-            android:elevation="5dp"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/hotel_booking" />
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie"
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                android:layout_centerInParent="true"
+                android:elevation="5dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/hotel_booking" />
 
-        <TextView
-            android:id="@+id/hotelLoad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="50dp"
-            android:text="Loading Hotels..."
-            android:textColor="@color/white"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/hotelLoad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="50dp"
+                android:text="Loading Estimation..."
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

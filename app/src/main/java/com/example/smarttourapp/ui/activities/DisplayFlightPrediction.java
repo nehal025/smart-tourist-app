@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,7 +59,8 @@ public class DisplayFlightPrediction extends AppCompatActivity {
     TextView persons;
     TextView days;
     TextView livingCost;
-    ProgressBar progressBar;
+    TextView from;
+    TextView to;
 
 
     RecyclerView recyclerView;
@@ -72,7 +74,6 @@ public class DisplayFlightPrediction extends AppCompatActivity {
     HotelPreddictionAdapter hotelAdapter;
     FlightAdapter flightAdapter;
 
-    TextView topHeadline;
     RelativeLayout errorLayout;
     ImageView errorImage;
     TextView errorTitle, errorMessage;
@@ -91,7 +92,7 @@ public class DisplayFlightPrediction extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
-       recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
 
         recyclerViewFlight = findViewById(R.id.recyclerView_flight);
@@ -111,26 +112,34 @@ public class DisplayFlightPrediction extends AppCompatActivity {
         lottieContainer = findViewById(R.id.lottie_container);
         lottieContainer.setVisibility(View.VISIBLE);
 
-        totalPrice=findViewById(R.id.totalprice);
-        livingCost=findViewById(R.id.living_cost);
-        hotelAvg=findViewById(R.id.HotelsAvg);
-        flightAvg=findViewById(R.id.flight_price);
-        days=findViewById(R.id.days);
-        persons=findViewById(R.id.person);
-        CollapsingToolbarLayout collapsingToolbarLayout =findViewById(R.id.collapsing_toolbar);
+        totalPrice = findViewById(R.id.total_price);
+        livingCost = findViewById(R.id.living_cost);
+        hotelAvg = findViewById(R.id.HotelsAvg);
+        flightAvg = findViewById(R.id.flight_price);
+        days = findViewById(R.id.days);
+        persons = findViewById(R.id.person);
+        from = findViewById(R.id.from);
+        to = findViewById(R.id.to);
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("Travel Cost Estimations");
         collapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         String day = intent.getStringExtra("day");
         String star = intent.getStringExtra("star");
         String person = intent.getStringExtra("person");
+        from.setText(Global.fromAddress.getCity());
+        to.setText(Global.toAddress.getCity());
 
-       getRetrofitFlight(Global.fromAddress.getCity(),Global.toAddress.getCity(),Global.fromAddress.getDistrict(),Global.toAddress.getDistrict(),day,star,person);
+        getRetrofitFlight(Global.fromAddress.getCity(), Global.toAddress.getCity(), Global.fromAddress.getDistrict(), Global.toAddress.getDistrict(), day, star, person);
 
     }
 
 
-    private void getRetrofitFlight(String from ,String to,String fromDist ,String toDist,String day,String star,String person) {
+    private void getRetrofitFlight(String from, String to, String fromDist, String toDist, String day, String star, String person) {
 
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -146,14 +155,13 @@ public class DisplayFlightPrediction extends AppCompatActivity {
                 .build();
 
         RetrofitArrayApi service = retrofit.create(RetrofitArrayApi.class);
-        Call<PricePredictionFlight> call = service.getPredictionFlight(day,person,star,from,to,fromDist,toDist,true);
+        Call<PricePredictionFlight> call = service.getPredictionFlight(day, person, star, from, to, fromDist, toDist, true);
 
 
         call.enqueue(new Callback<PricePredictionFlight>() {
             @SuppressLint({"CheckResult", "NotifyDataSetChanged", "SetTextI18n"})
             @Override
             public void onResponse(@NonNull Call<PricePredictionFlight> call, @NonNull Response<PricePredictionFlight> response) {
-
 
 
                 if (response.isSuccessful()) {
@@ -184,9 +192,9 @@ public class DisplayFlightPrediction extends AppCompatActivity {
                     for (int i = 0; i < response.body().getFlight().size(); i++) {
 
                         flights.add(new Flight(response.body().getFlight().get(i).getTitle(),
-                                        response.body().getFlight().get(i).getImg(),
+                                response.body().getFlight().get(i).getImg(),
                                 response.body().getFlight().get(i).getCost()
-                                ,response.body().getFlight().get(i).getTime()));
+                                , response.body().getFlight().get(i).getTime()));
 
 
                     }
@@ -204,13 +212,13 @@ public class DisplayFlightPrediction extends AppCompatActivity {
 
                     lottieContainer.setVisibility(View.GONE);
                     lottie.cancelAnimation();
-                    hotelAvg.setText("Hotels Avg Cost :"+response.body().getHotelsAvgCost());
-                    flightAvg.setText("Flight Avg Cost :"+response.body().getFlightAvgCost());
+                    hotelAvg.setText("Hotels Avg Cost :" + " Rs " + response.body().getHotelsAvgCost());
+                    flightAvg.setText("Flight Avg Cost :" + " Rs " + response.body().getFlightAvgCost());
 
-                    totalPrice.setText("Total Cost :"+response.body().getTotalCost());
-                    persons.setText("Person :"+response.body().getPerson());
-                    days.setText("Days :"+response.body().getDay());
-                    livingCost.setText("Living Cost :"+response.body().getLivingCost());
+                    totalPrice.setText("Total Cost :" + " Rs " + response.body().getTotalCost());
+                    persons.setText("No of person :" + response.body().getPerson());
+                    days.setText("No of days :" + response.body().getDay());
+                    livingCost.setText("Living Cost :" + " Rs " + response.body().getLivingCost());
 
 
                 } else {
@@ -240,15 +248,11 @@ public class DisplayFlightPrediction extends AppCompatActivity {
                 }
 
 
-
-
             }
 
 
-
-
             @Override
-            public void onFailure(@NonNull Call <PricePredictionFlight> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<PricePredictionFlight> call, @NonNull Throwable t) {
 
                 Toast toast = Toast.makeText(getApplicationContext(),
                         t.getMessage(),
@@ -350,12 +354,12 @@ public class DisplayFlightPrediction extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_SYNC, null, this, ExitService.class);
 
 
-            intent.putExtra("token1",getToken());
-            intent.putExtra("_1star",Global.map.get("1"));
-            intent.putExtra("_2star",Global.map.get("2"));
-            intent.putExtra("_3star",Global.map.get("3"));
-            intent.putExtra("_4star",Global.map.get("4"));
-            intent.putExtra("_5star",Global.map.get("5"));
+            intent.putExtra("token1", getToken());
+            intent.putExtra("_1star", Global.map.get("1"));
+            intent.putExtra("_2star", Global.map.get("2"));
+            intent.putExtra("_3star", Global.map.get("3"));
+            intent.putExtra("_4star", Global.map.get("4"));
+            intent.putExtra("_5star", Global.map.get("5"));
 
             startService(intent);
 
@@ -402,11 +406,11 @@ public class DisplayFlightPrediction extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<Recommendation> call, @NonNull Response<Recommendation> response) {
 
-                Global.map.put("1" ,response.body().get1star());
-                Global.map.put("2" ,response.body().get2star());
-                Global.map.put("3",response.body().get3star());
-                Global.map.put("4",response.body().get4star());
-                Global.map.put("5",response.body().get5star());
+                Global.map.put("1", response.body().get1star());
+                Global.map.put("2", response.body().get2star());
+                Global.map.put("3", response.body().get3star());
+                Global.map.put("4", response.body().get4star());
+                Global.map.put("5", response.body().get5star());
                 Global.recommendation.clear();
 
                 Global.recommendation = response.body().getRecommendation();
@@ -427,6 +431,12 @@ public class DisplayFlightPrediction extends AppCompatActivity {
     public Boolean getRec() {
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         return sharedPreferences.getBoolean("rec", true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }

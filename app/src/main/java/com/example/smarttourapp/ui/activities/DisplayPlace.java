@@ -30,7 +30,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.smarttourapp.model.Place;
 import com.example.smarttourapp.R;
 import com.example.smarttourapp.retrofit.RetrofitArrayApi;
-import com.example.smarttourapp.utils.Utils;
+import com.example.smarttourapp.utils.*;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.card.MaterialCardView;
 

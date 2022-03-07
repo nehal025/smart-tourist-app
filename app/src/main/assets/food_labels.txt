@@ -1,8 +1,4 @@
 Dhokla
-Gulab Jamun
-Dosa
-Jalebi
+Gulabjam
 Idli
 Vada Pav
-Momos
-Samosa

@@ -51,7 +51,7 @@
         android:id="@+id/lottie_container"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:background="#F44336"
+        android:background="#673AB7"
         android:visibility="invisible"
         tools:context=".SplashHotel">
 

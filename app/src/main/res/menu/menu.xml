@@ -23,7 +23,7 @@
 
     <item
         android:id="@+id/navigation_save"
-        android:icon="@drawable/ic_prediction"
+        android:icon="@drawable/ic_predictions"
         android:title="saved"
         />
     <item

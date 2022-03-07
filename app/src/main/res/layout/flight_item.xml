@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
-            android:padding="@dimen/_5sdp">
+            android:padding="@dimen/_8sdp">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:padding="@dimen/_3sdp"

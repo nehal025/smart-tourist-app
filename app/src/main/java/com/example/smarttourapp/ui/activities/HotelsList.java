@@ -33,7 +33,6 @@ import com.example.smarttourapp.animation.MyBounceInterpolator;
 import com.example.smarttourapp.model.Hotel;
 import com.example.smarttourapp.R;
 import com.example.smarttourapp.model.Recommendation;
-import com.example.smarttourapp.model.news.Article;
 import com.example.smarttourapp.retrofit.RetrofitArrayApi;
 import com.example.smarttourapp.ui.adapters.HotelAdapter;
 import com.example.smarttourapp.ui.adapters.NewsAdapter;
