@@ -1,7 +1,8 @@
 package com.example.smarttourapp.retrofit;
 
 
-import com.example.smarttourapp.Token;
+import com.example.smarttourapp.model.RecommendationRs;
+import com.example.smarttourapp.model.ArrayListCategory;
 import com.example.smarttourapp.model.Food;
 import com.example.smarttourapp.model.PricePredictionFlight;
 import com.example.smarttourapp.model.PricePredictionTrain;
@@ -15,10 +16,9 @@ import com.example.smarttourapp.model.ThingsToDo;
 import com.example.smarttourapp.model.news.News;
 
 
-import java.util.HashMap;
 import java.util.List;
 
-import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -44,6 +44,9 @@ public interface RetrofitArrayApi {
 
     @GET("/restaurants/live/")
     Call <List<Restaurant>>getLiveRestaurants(@Query("location")String name);
+
+    @POST("/restaurants/live/")
+    Call <List<Restaurant>>getLiveRestaurantsWithStar(@Query("location")String name,@Body ArrayListCategory arrayListCategory);
 
 
     @GET("/places/live/")
@@ -78,7 +81,7 @@ public interface RetrofitArrayApi {
     @POST("users/logout")
     Call<LoginResponse> logoutUser(@Body RegisterBody RegisterBody);
 
-    @POST("users/recommendation/")
+    @POST("users/recommendation/hotel")
     Call<Recommendation> updateRecommendation(@Query("token") String token,
                                              @Query("_1star") String _1star,
                                              @Query("_2star") String _2star,
@@ -88,7 +91,7 @@ public interface RetrofitArrayApi {
                                             );
 
 
-    @GET("users/recommendation")
+    @GET("users/recommendation/hotel")
     Call <Recommendation>getRecommendedHotels( @Query("token") String token);
 
 
@@ -109,4 +112,15 @@ public interface RetrofitArrayApi {
                                                     @Query("toDist") String toDist,
                                                     @Query("flightBool") Boolean flightBool);
 
+
+
+    @POST("users/recommendation/restaurants/")
+    Call<ResponseBody> postCategoryRes(@Body ArrayListCategory arrayListCategory ,@Query("token")String token);
+
+    @GET("users/recommendation/restaurants/")
+    Call <RecommendationRs>getRecommendedRestaurants(@Query("token") String token);
+
+
+    @POST("/users/recommendation/clear")
+    Call<ResponseBody> clearRecommendation(@Query("token") String token);
 }

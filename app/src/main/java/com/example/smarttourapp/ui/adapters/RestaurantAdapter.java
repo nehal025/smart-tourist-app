@@ -46,6 +46,7 @@ public class RestaurantAdapter  extends RecyclerView.Adapter<RestaurantAdapter.M
     public interface OnItemClickListener {
         void onClickBookNow(View view, int position);
         void onItemClick(int position);
+        void onLike(View view, int position);
 
     }
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -118,6 +119,8 @@ public class RestaurantAdapter  extends RecyclerView.Adapter<RestaurantAdapter.M
         ProgressBar progressBar;
         RatingBar rating;
         com.ornach.nobobutton.NoboButton bookNow;
+        ImageView like;
+
 
         public MyViewHolder(View itemView, final OnItemClickListener listener) {
 
@@ -132,6 +135,7 @@ public class RestaurantAdapter  extends RecyclerView.Adapter<RestaurantAdapter.M
             progressBar = itemView.findViewById(R.id.prograss_load_photo);
             rating=itemView.findViewById(R.id.rating);
             bookNow=itemView.findViewById(R.id.restaurant_bookNow);
+            like=itemView.findViewById(R.id.like_button);
 
             bookNow.setOnClickListener(v -> {
 
@@ -149,6 +153,17 @@ public class RestaurantAdapter  extends RecyclerView.Adapter<RestaurantAdapter.M
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         listener.onItemClick(position);
+                    }
+                }
+
+            });
+
+            like.setOnClickListener(v -> {
+
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onLike(v,position);
                     }
                 }
 

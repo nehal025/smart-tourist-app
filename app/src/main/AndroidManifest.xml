@@ -87,7 +87,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <service
-            android:name=".ExitService"
+            android:name=".services.ExitService"
             android:enabled="true"
             android:exported="true"
             android:process=":ServiceProcess"

@@ -147,6 +147,8 @@ public class LoginActivity extends AppCompatActivity  implements Validator.Valid
         editor.putString("name", name);
         editor.putString("token", token);
         editor.putBoolean("loginStatus",loginStatus);
+        editor.putBoolean("rec",true);
+
         editor.apply();
     }
 

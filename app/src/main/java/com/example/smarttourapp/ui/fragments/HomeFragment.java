@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -224,11 +225,13 @@ public class HomeFragment extends Fragment  {
 
             public void run() {
 
-                if(Global.currentAddress!=null){
+                if(Global.currentAddress!=null && Global.hotelRecommendation!=null && Global.restaurantRecommendation!=null){
+
                     textView.setText(Global.currentAddress.getCity());
                     progressBar.setVisibility(View.GONE);
                     fragment_hide.setVisibility(View.VISIBLE);
                     h.removeCallbacksAndMessages(null);
+
                     return;
                 }
                 h.postDelayed(this, 100);

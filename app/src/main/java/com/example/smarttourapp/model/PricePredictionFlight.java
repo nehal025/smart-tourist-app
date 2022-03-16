@@ -1,11 +1,10 @@
 package com.example.smarttourapp.model;
 
 
+import java.util.List;
 
-
-        import java.util.List;
-        import com.google.gson.annotations.Expose;
-        import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 
 public class PricePredictionFlight {
@@ -34,9 +33,6 @@ public class PricePredictionFlight {
     @SerializedName("flight")
     @Expose
     private List<Flight> flight = null;
-
-
-
 
 
     public PricePredictionFlight(String day, String person, Integer totalCost, Integer livingCost, Integer hotelsAvgCost, List<Hotel> hotels, Integer flightAvgCost, List<Flight> flight) {
@@ -114,6 +110,7 @@ public class PricePredictionFlight {
     public void setFlight(List<Flight> flight) {
         this.flight = flight;
     }
+
     public class Flight {
 
         @SerializedName("title")
@@ -131,13 +128,11 @@ public class PricePredictionFlight {
 
         /**
          * No args constructor for use in serialization
-         *
          */
         public Flight() {
         }
 
         /**
-         *
          * @param img
          * @param cost
          * @param time
@@ -217,13 +212,11 @@ public class PricePredictionFlight {
 
         /**
          * No args constructor for use in serialization
-         *
          */
         public Hotel() {
         }
 
         /**
-         *
          * @param img
          * @param star
          * @param reviews

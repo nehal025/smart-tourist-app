@@ -31,9 +31,7 @@ public class PricePredictionTrain {
     private List<Train> train = null;
 
 
-    public PricePredictionTrain() {
 
-    }
 
 
     public PricePredictionTrain(String day, String person, Integer totalCost, Integer livingCost, Integer hotelsAvgCost, List<Hotel> hotels, Integer trainAvgCost, List<Train> train) {

@@ -18,18 +18,7 @@ public class Flight {
     @Expose
     private String time;
 
-    /**
-     * No args constructor for use in serialization
-     *
-     */
 
-    /**
-     *
-     * @param img
-     * @param cost
-     * @param time
-     * @param title
-     */
     public Flight(String title, String img, Integer cost, String time) {
         super();
         this.title = title;

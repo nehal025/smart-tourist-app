@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.smarttourapp.R;
+import com.example.smarttourapp.model.RecommendationRs;
 import com.example.smarttourapp.model.CurrentLocation;
 import com.example.smarttourapp.model.Recommendation;
 import com.example.smarttourapp.retrofit.RetrofitArrayApi;
@@ -43,6 +44,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nambimobile.widgets.efab.FabOption;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -95,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        Global.restaurantLikes = loadMap();
+
 
         HomeFragment homeFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
@@ -128,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(getLoginStatus()){
             getRecommendations(getToken());
+            getRecommendationsRes(getToken());
+
         }
 
 
@@ -137,8 +147,7 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions();
         }
 
-//        Global.fromAddress.setCity("hi");
-//        Global.toAddress.setCity("");
+
 
     }
 
@@ -153,9 +162,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (checkPermissions()&& !alreadyExecuted) {
+        if (checkPermissions() && !alreadyExecuted) {
             setLocation();
+
         }
+
     }
 
     @SuppressLint("MissingPermission")
@@ -205,15 +216,15 @@ public class MainActivity extends AppCompatActivity {
 
                     Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                    String city =addresses.get(0).getLocality();
-                    String district=addresses.get(0).getSubAdminArea() ;
-                    String state =addresses.get(0).getAdminArea();
-                    String pinCode =addresses.get(0).getPostalCode();
-                    String country =addresses.get(0).getCountryName();
-                    String latitude =String.valueOf(addresses.get(0).getLatitude());
-                    String longitude=String.valueOf(addresses.get(0).getLongitude());
-                    String addressLine=addresses.get(0).getAddressLine(0);
-                    Global.currentAddress=new CurrentLocation(city,district,state,pinCode,country,latitude,longitude,addressLine);
+                    String city = addresses.get(0).getLocality();
+                    String district = addresses.get(0).getSubAdminArea();
+                    String state = addresses.get(0).getAdminArea();
+                    String pinCode = addresses.get(0).getPostalCode();
+                    String country = addresses.get(0).getCountryName();
+                    String latitude = String.valueOf(addresses.get(0).getLatitude());
+                    String longitude = String.valueOf(addresses.get(0).getLongitude());
+                    String addressLine = addresses.get(0).getAddressLine(0);
+                    Global.currentAddress = new CurrentLocation(city, district, state, pinCode, country, latitude, longitude, addressLine);
 
                     if (!alreadyExecuted) {
                         alreadyExecuted = true;
@@ -318,6 +329,13 @@ public class MainActivity extends AppCompatActivity {
         editor.clear();
         editor.apply();
 
+        SharedPreferences preferences1 = getSharedPreferences("MyVariables", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = preferences1.edit();
+        editor1.clear();
+        editor1.apply();
+
+        Global.clear();
+        finish();
 
     }
 
@@ -337,25 +355,29 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         RetrofitArrayApi service = retrofit.create(RetrofitArrayApi.class);
-        Call <Recommendation> call = service.getRecommendedHotels(getToken());
+        Call<Recommendation> call = service.getRecommendedHotels(getToken());
 
-        call.enqueue(new Callback <Recommendation>() {
+        call.enqueue(new Callback<Recommendation>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onResponse(@NonNull Call <Recommendation> call, Response<Recommendation> response) {
+            public void onResponse(@NonNull Call<Recommendation> call, Response<Recommendation> response) {
 
 
                 if (response.isSuccessful()) {
+//                          Global.clear2();
+//
+//
+                    Global.hotelLikes.put("1", response.body().get1star());
+                    Global.hotelLikes.put("2", response.body().get2star());
+                    Global.hotelLikes.put("3", response.body().get3star());
+                    Global.hotelLikes.put("4", response.body().get4star());
+                    Global.hotelLikes.put("5", response.body().get5star());
 
-                    Global.map.put("1" ,response.body().get1star());
-                    Global.map.put("2" ,response.body().get2star());
-                    Global.map.put("3",response.body().get3star());
-                    Global.map.put("4",response.body().get4star());
-                    Global.map.put("5",response.body().get5star());
+                    if(!Global.hotelRecommendation.isEmpty()){
+                        Global.hotelRecommendation.clear();
+                    }
 
-
-                    Global.recommendation = response.body().getRecommendation();
-
+                    Global.hotelRecommendation = response.body().getRecommendation();
 
 
                 } else {
@@ -364,9 +386,55 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call <Recommendation> call, @NonNull Throwable t) {
-                Toast toast=Toast.makeText(MainActivity.this,t.toString(),Toast.LENGTH_SHORT);
-                toast.setMargin(50,50);
+            public void onFailure(@NonNull Call<Recommendation> call, @NonNull Throwable t) {
+                Toast toast = Toast.makeText(MainActivity.this, t.toString(), Toast.LENGTH_SHORT);
+                toast.setMargin(50, 50);
+                toast.show();
+            }
+        });
+
+    }
+
+    private void getRecommendationsRes(String token) {
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .build();
+
+        String baseURL = getResources().getString(R.string.link);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseURL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitArrayApi service = retrofit.create(RetrofitArrayApi.class);
+        Call<RecommendationRs> call = service.getRecommendedRestaurants(getToken());
+
+        call.enqueue(new Callback<RecommendationRs>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(@NonNull Call<RecommendationRs> call, @NonNull Response<RecommendationRs> response) {
+
+
+                if (response.isSuccessful()) {
+
+
+                    assert response.body() != null;
+                    Global.restaurantRecommendation = response.body().getCategory();
+//                    @SuppressLint("ShowToast") Toast toast = Toast.makeText(MainActivity.this, response.body().getCategory().toString(), Toast.LENGTH_SHORT);
+
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RecommendationRs> call, @NonNull Throwable t) {
+                Toast toast = Toast.makeText(MainActivity.this, t.toString(), Toast.LENGTH_SHORT);
+                toast.setMargin(50, 50);
                 toast.show();
             }
         });
@@ -387,14 +455,14 @@ public class MainActivity extends AppCompatActivity {
     public void recommendationOff() {
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("rec",false);
+        editor.putBoolean("rec", false);
         editor.apply();
     }
 
     public void recommendationOn() {
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("rec",true);
+        editor.putBoolean("rec", true);
         editor.apply();
     }
 
@@ -405,6 +473,38 @@ public class MainActivity extends AppCompatActivity {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    private HashMap<String, Integer> loadMap() {
+        HashMap<String, Integer> outputMap = new HashMap<>();
+        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences("MyVariables", Context.MODE_PRIVATE);
+        try {
+            if (pSharedPref != null) {
+                String jsonString = pSharedPref.getString("My_map", (new JSONObject()).toString());
+                if (jsonString != null) {
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    Iterator<String> keysItr = jsonObject.keys();
+                    while (keysItr.hasNext()) {
+                        String key = keysItr.next();
+                        Integer value = jsonObject.getInt(key);
+                        outputMap.put(key, value);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return outputMap;
+    }
+
+    public void clearLikes() {
+        SharedPreferences preferences = getSharedPreferences("MyVariables", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+        finish();
+
+    }
+
 }
 
 

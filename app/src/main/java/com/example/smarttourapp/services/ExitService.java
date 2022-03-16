@@ -1,21 +1,17 @@
-package com.example.smarttourapp;
+package com.example.smarttourapp.services;
 
 import android.annotation.SuppressLint;
 import android.app.IntentService;
-import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.smarttourapp.R;
 import com.example.smarttourapp.model.Recommendation;
 import com.example.smarttourapp.retrofit.RetrofitArrayApi;
-import com.example.smarttourapp.ui.activities.HotelsList;
-import com.example.smarttourapp.utils.Global;
 
 import java.util.concurrent.TimeUnit;
 
@@ -62,6 +58,16 @@ public class ExitService extends IntentService {
             public void onResponse(@NonNull Call <Recommendation> call, Response<Recommendation> response) {
                 Log.d(TAG, "Success");
 //                stopSelf();
+
+
+//                Global.map.put("1" ,response.body().get1star());
+//                Global.map.put("2" ,response.body().get2star());
+//                Global.map.put("3",response.body().get3star());
+//                Global.map.put("4",response.body().get4star());
+//                Global.map.put("5",response.body().get5star());
+//                Global.recommendation.clear();
+//                Global.recommendation = response.body().getRecommendation();
+//                Log.d(TAG, Global.recommendation.get(0));
 
             }
 

@@ -31,12 +31,7 @@ public class Recommendation {
     @Expose
     private List<String> recommendation = null;
 
-    /**
-     * No args constructor for use in serialization
-     *
-     */
-    public Recommendation() {
-    }
+
 
 
     public Recommendation(String id, String username, String _1star, String _2star, String _3star, String _4star, String _5star, List<String> recommendation) {

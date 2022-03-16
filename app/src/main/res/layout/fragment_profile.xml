@@ -108,12 +108,13 @@
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <TextView
+                android:id="@+id/reset_recommendation"
                 style="@style/viewParent.headerText.settingsTextIcon"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:drawableLeft="@drawable/ic_edit_profile"
                 android:focusable="true"
-                android:text="Change Name" />
+                android:text="Reset recommendations" />
 
             <TextView
                 style="@style/viewParent.headerText.settingsTextIcon"

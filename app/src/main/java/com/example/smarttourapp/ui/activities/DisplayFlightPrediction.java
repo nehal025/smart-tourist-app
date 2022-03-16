@@ -12,7 +12,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.smarttourapp.ExitService;
+import com.example.smarttourapp.services.ExitService;
 import com.example.smarttourapp.R;
 import com.example.smarttourapp.animation.MyBounceInterpolator;
 import com.example.smarttourapp.model.Flight;
@@ -35,7 +34,6 @@ import com.example.smarttourapp.model.PricePredictionFlight;
 import com.example.smarttourapp.model.Recommendation;
 import com.example.smarttourapp.retrofit.RetrofitArrayApi;
 import com.example.smarttourapp.ui.adapters.FlightAdapter;
-import com.example.smarttourapp.ui.adapters.HotelAdapter;
 import com.example.smarttourapp.ui.adapters.HotelPreddictionAdapter;
 import com.example.smarttourapp.utils.Global;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -314,9 +312,9 @@ public class DisplayFlightPrediction extends AppCompatActivity {
                         String star = String.valueOf(hotels.get(position).getStar());
 
 
-                        Global.map.put(star, String.valueOf(Integer.parseInt(Objects.requireNonNull(Global.map.get(star))) + 1));
+                        Global.hotelLikes.put(star, String.valueOf(Integer.parseInt(Objects.requireNonNull(Global.hotelLikes.get(star))) + 1));
                         hotels.get(position).setSave(true);
-                        Toast toast = Toast.makeText(DisplayFlightPrediction.this, Global.map.get(star), Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(DisplayFlightPrediction.this, Global.hotelLikes.get(star), Toast.LENGTH_SHORT);
                         toast.setMargin(50, 50);
                         toast.show();
 
@@ -355,11 +353,11 @@ public class DisplayFlightPrediction extends AppCompatActivity {
 
 
             intent.putExtra("token1", getToken());
-            intent.putExtra("_1star", Global.map.get("1"));
-            intent.putExtra("_2star", Global.map.get("2"));
-            intent.putExtra("_3star", Global.map.get("3"));
-            intent.putExtra("_4star", Global.map.get("4"));
-            intent.putExtra("_5star", Global.map.get("5"));
+            intent.putExtra("_1star", Global.hotelLikes.get("1"));
+            intent.putExtra("_2star", Global.hotelLikes.get("2"));
+            intent.putExtra("_3star", Global.hotelLikes.get("3"));
+            intent.putExtra("_4star", Global.hotelLikes.get("4"));
+            intent.putExtra("_5star", Global.hotelLikes.get("5"));
 
             startService(intent);
 
@@ -378,11 +376,11 @@ public class DisplayFlightPrediction extends AppCompatActivity {
 
         String token1, _1star, _2star, _3star, _4star, _5star;
         token1 = getToken();
-        _1star = Global.map.get("1");
-        _2star = Global.map.get("2");
-        _3star = Global.map.get("3");
-        _4star = Global.map.get("4");
-        _5star = Global.map.get("5");
+        _1star = Global.hotelLikes.get("1");
+        _2star = Global.hotelLikes.get("2");
+        _3star = Global.hotelLikes.get("3");
+        _4star = Global.hotelLikes.get("4");
+        _5star = Global.hotelLikes.get("5");
 
 
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
@@ -406,14 +404,14 @@ public class DisplayFlightPrediction extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<Recommendation> call, @NonNull Response<Recommendation> response) {
 
-                Global.map.put("1", response.body().get1star());
-                Global.map.put("2", response.body().get2star());
-                Global.map.put("3", response.body().get3star());
-                Global.map.put("4", response.body().get4star());
-                Global.map.put("5", response.body().get5star());
-                Global.recommendation.clear();
+                Global.hotelLikes.put("1", response.body().get1star());
+                Global.hotelLikes.put("2", response.body().get2star());
+                Global.hotelLikes.put("3", response.body().get3star());
+                Global.hotelLikes.put("4", response.body().get4star());
+                Global.hotelLikes.put("5", response.body().get5star());
+                Global.hotelRecommendation.clear();
 
-                Global.recommendation = response.body().getRecommendation();
+                Global.hotelRecommendation = response.body().getRecommendation();
 
             }
 
